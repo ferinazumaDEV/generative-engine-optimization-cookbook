@@ -1,0 +1,33 @@
+name: Link check
+
+# Verifies every link/citation across the handbook still resolves.
+# Runs on changes, on every PR, and weekly to catch link-rot.
+
+on:
+  push:
+    branches: [main]
+    paths: ['**/*.md']
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '17 6 * * 1'   # Mondays 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --max-concurrency 4
+            --max-retries 2
+            --accept 200,201,204,206,403,429
+            './**/*.md'
+          fail: true

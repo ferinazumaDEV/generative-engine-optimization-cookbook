@@ -1,0 +1,9 @@
+technique: ssr-vs-csr-rendering
+title: "SSR vs CSR: make your content visible to AI crawlers"
+chapter: 04-technical
+handbook_section: docs/04-technical.md
+engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
+status: published
+requires_llm: false
+requires_network: false
+last_verified: 2026-08-26
