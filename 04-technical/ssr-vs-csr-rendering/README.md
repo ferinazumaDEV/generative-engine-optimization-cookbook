@@ -29,6 +29,14 @@ No network, no browser, no LLM — it just extracts the text a fetch-only bot wo
 
 See [`measurement.md`](measurement.md). In short: strip `<script>`/`<style>`/tags from each page's **HTML source** (that is what a crawler which does not execute JavaScript receives) and count the visible words. Method, numbers and date are in the file.
 
+## What 25× means — and what it doesn't
+
+This measures **HTML text a fetch-only crawler can read**, nothing more.
+
+> **25× more visible words ≠ 25× more likely to be cited.**
+
+Visibility is a *precondition* for citation — an empty page cannot be quoted — not a multiplier on it. Whether a visible passage is actually cited depends on relevance, authority, and the engine. This recipe proves the content becomes **extractable**; it does not claim a citation rate.
+
 ## FAQ
 
 **Do AI crawlers really not run JavaScript?**
