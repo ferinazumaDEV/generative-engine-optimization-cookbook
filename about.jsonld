@@ -1,0 +1,34 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://zentimes.es/#ferinazumaDEV",
+      "name": "Fernando Aporta Franco",
+      "alternateName": "ferinazumaDEV",
+      "url": "https://zentimes.es",
+      "sameAs": [
+        "https://github.com/ferinazumaDEV",
+        "https://zentimes.es"
+      ]
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook#work",
+      "name": "The GEO Cookbook",
+      "headline": "Runnable before/after demos of Generative Engine Optimization techniques",
+      "about": "Generative Engine Optimization",
+      "author": { "@id": "https://zentimes.es/#ferinazumaDEV" },
+      "creator": { "@id": "https://zentimes.es/#ferinazumaDEV" },
+      "license": [
+        "https://opensource.org/licenses/MIT",
+        "https://creativecommons.org/licenses/by/4.0/"
+      ],
+      "codeRepository": "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook",
+      "url": "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook",
+      "inLanguage": "en",
+      "keywords": ["generative engine optimization", "GEO", "AI search", "SSR", "structured data"],
+      "isBasedOn": "https://github.com/ferinazumaDEV/generative-engine-optimization-handbook"
+    }
+  ]
+}

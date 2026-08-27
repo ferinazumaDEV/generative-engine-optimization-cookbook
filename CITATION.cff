@@ -8,4 +8,6 @@ authors:
     alias: ferinazumaDEV
 repository-code: "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook"
 url: "https://zentimes.es"
-license: MIT
+license:
+  - MIT
+  - CC-BY-4.0

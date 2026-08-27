@@ -1,0 +1,15 @@
+# The GEO Cookbook
+
+> Runnable before/after demos of Generative Engine Optimization techniques. Each recipe measures a real, reproducible effect offline (no LLM, no network) so you can verify the claim yourself. Companion to the GEO Handbook. Maintained by ferinazumaDEV.
+
+## Recipes
+- [SSR vs CSR rendering](04-technical/ssr-vs-csr-rendering/): what an AI crawler sees with and without JavaScript — measured 6 → 152 visible words (~25×), reproducible offline.
+
+## Meta
+- [README](README.md): how recipes are structured (before / after / measurement / reproduce).
+- [Ecosystem](ECOSYSTEM.md): how this fits the ferinazumaDEV GEO cluster.
+
+## Related
+- [The GEO Handbook](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook): the theory each recipe demonstrates.
+- [Evidence-based prompt engineering](https://github.com/ferinazumaDEV/prompt-engineering-evidence): the input side.
+- Hub: https://zentimes.es
