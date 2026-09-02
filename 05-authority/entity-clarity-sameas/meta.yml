@@ -1,0 +1,14 @@
+technique: entity-clarity-sameas
+title: "Entity clarity: disambiguate with sameAs + canonical IDs"
+chapter: 05-authority
+handbook_section: docs/05-authority.md
+engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
+status: published
+requires_llm: false
+requires_network: false
+tool: "python3 stdlib (json, re, pathlib)"
+metric: "entities resolved unambiguously to a canonical Wikidata ID"
+before_value: 0
+after_value: 5
+sample_size: 5
+last_verified: 2026-09-01

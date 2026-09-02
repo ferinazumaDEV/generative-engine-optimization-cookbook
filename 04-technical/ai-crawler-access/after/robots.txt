@@ -1,0 +1,36 @@
+# robots.txt — AFTER (AI crawlers allowed + curated feed advertised)
+# Same site, opposite policy: the answer-engine crawlers are explicitly let in,
+# and the file points them at a hand-curated /llms.txt so they read the good
+# version of the content instead of scraping raw HTML.
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: *
+Disallow:
+
+Sitemap: https://example.com/sitemap.xml
+
+# Curated, machine-readable index of the site's best content (llmstxt.org):
+# LLM-Content: https://example.com/llms.txt

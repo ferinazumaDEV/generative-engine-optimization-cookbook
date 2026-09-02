@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Why plain names confuse AI answer engines</title>
+  <meta name="description" content="Five everyday names — Jordan, Apple, Python, Amazon, Paris — that mean many different things.">
+  <!-- BEFORE: structured data lists entities by NAME ONLY. No canonical IDs, no sameAs. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Why plain names confuse AI answer engines",
+    "about": [
+      { "@type": "Person",        "name": "Michael Jordan" },
+      { "@type": "Organization",  "name": "Apple" },
+      { "@type": "Thing",         "name": "Python" },
+      { "@type": "Organization",  "name": "Amazon" },
+      { "@type": "Place",         "name": "Paris" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <article>
+    <h1>Why plain names confuse AI answer engines</h1>
+    <p>
+      A single word can name a dozen different things. When an answer engine reads
+      <strong>Michael Jordan</strong>, does it mean the basketball player or the
+      machine-learning professor at Berkeley? <strong>Apple</strong> could be the
+      technology company or the fruit. <strong>Python</strong> is a programming
+      language, a snake, and a comedy troupe. <strong>Amazon</strong> is a retailer
+      and a river. <strong>Paris</strong> is a capital city, a town in Texas, and a
+      first name.
+    </p>
+    <p>
+      A human reader disambiguates these from context. A machine building an answer
+      has to guess — and a wrong guess pollutes the answer with the wrong entity.
+      This page names the five entities but gives the machine nothing to pin them to.
+    </p>
+  </article>
+</body>
+</html>
