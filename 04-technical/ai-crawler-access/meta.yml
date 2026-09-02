@@ -1,0 +1,11 @@
+technique: ai-crawler-access
+title: "AI crawler access: allow AI crawlers in robots.txt + publish an llms.txt"
+chapter: 04-technical
+handbook_section: docs/04-technical.md
+engines: [GPTBot, ClaudeBot, anthropic-ai, PerplexityBot, Google-Extended, CCBot, Applebot-Extended, Bytespider]
+tool: "python3 (stdlib) + bash"
+status: published
+requires_llm: false
+requires_network: false
+confidence: medium
+last_verified: 2026-09-01

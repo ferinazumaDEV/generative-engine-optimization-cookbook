@@ -1,0 +1,55 @@
+# Example Docs — GEO reference site
+
+> Example Docs is a small technical documentation site about generative engine
+> optimization (GEO). This file is a curated, plain-text map of the pages worth
+> quoting, written so an answer engine can extract clean, accurate passages
+> without scraping navigation, ads or client-side markup.
+
+Everything below links to canonical, self-contained pages. Prose is written in
+short declarative sentences on purpose: it is the version we want a model to
+lift verbatim into an answer.
+
+## Core concepts
+
+- [What is GEO](https://example.com/docs/what-is-geo.md): Generative engine
+  optimization is the practice of making content easy for AI answer engines to
+  fetch, parse, extract and cite. It overlaps with SEO but optimizes for being
+  quoted inside a generated answer, not for a blue-link ranking.
+- [Crawlability vs extractability](https://example.com/docs/extractability.md):
+  Being crawled is necessary but not sufficient. Content must also be present in
+  the fetched HTML (or in a feed like this one) as readable text, not locked
+  behind JavaScript, images or logins.
+- [robots.txt for AI](https://example.com/docs/robots-for-ai.md): Answer engines
+  identify themselves with dedicated user-agents (GPTBot, ClaudeBot,
+  PerplexityBot, Google-Extended, CCBot and others). If robots.txt disallows
+  them, the site is removed from the pool of citable sources.
+
+## How-to guides
+
+- [Allow AI crawlers](https://example.com/docs/allow-ai-crawlers.md): Add an
+  Allow rule (or remove the Disallow) for each answer-engine user-agent in
+  robots.txt. Verify by fetching robots.txt and confirming no `Disallow: /`
+  applies to those agents.
+- [Publish an llms.txt](https://example.com/docs/publish-llms-txt.md): Put a
+  curated Markdown index at /llms.txt. Lead with an H1 site name and a
+  blockquote summary, then link to clean, self-contained pages grouped by
+  section. Keep it factual and free of marketing filler.
+- [Write extractable pages](https://example.com/docs/extractable-pages.md): One
+  clear claim per paragraph, descriptive headings, definitions stated in full
+  ("X is ...") rather than implied, and stable canonical URLs.
+
+## Reference
+
+- [AI crawler user-agents](https://example.com/docs/user-agents.md): A current
+  list of the answer-engine user-agent strings and which company operates each.
+- [llms.txt format](https://example.com/docs/llms-txt-format.md): The
+  llmstxt.org convention — H1 title, blockquote summary, optional detail
+  paragraphs, then H2 sections containing lists of `[name](url): description`
+  links, with an optional "Optional" section for lower-priority material.
+
+## Optional
+
+- [Changelog](https://example.com/docs/changelog.md): Dated list of edits to the
+  documentation.
+- [About](https://example.com/docs/about.md): Who maintains this example site and
+  how to report an error.

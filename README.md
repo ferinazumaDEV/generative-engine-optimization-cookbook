@@ -23,10 +23,11 @@ Folders mirror the handbook's chapters. Theory-only chapters (foundations, engin
 | Chapter | Technique | Status |
 |---|---|---|
 | 04 · Technical | [`ssr-vs-csr-rendering`](04-technical/ssr-vs-csr-rendering/) — is your content visible to a no-JS crawler? | ✅ **published** (25× demo) |
-| 04 · Technical | `llms-txt`, `robots-ai-user-agents`, `structured-data-jsonld` | planned |
-| 03 · Content | `chunk-friendly-structure` — write extractable, quotable sections | planned |
-| 05 · Authority | `entity-clarity` — `sameAs` / Organization + Person | planned |
-| 06 · Measurement | `citation-share` — probe how often engines quote you | planned |
+| 04 · Technical | [`structured-data-jsonld`](04-technical/structured-data-jsonld/) — make your facts machine-readable | ✅ **published** (0 → 37 typed facts) |
+| 04 · Technical | [`ai-crawler-access`](04-technical/ai-crawler-access/) — allow AI crawlers in `robots.txt` and publish an `llms.txt` | ✅ **published** (0 → 8 UAs, 0 → 2,868 bytes) |
+| 03 · Content | [`chunk-friendly-structure`](03-content/chunk-friendly-structure/) — write extractable, quotable sections | ✅ **published** (0/5 → 5/5 self-contained chunks) |
+| 05 · Authority | [`entity-clarity-sameas`](05-authority/entity-clarity-sameas/) — `sameAs` / canonical Wikidata IDs | ✅ **published** (0 → 5 entities resolved) |
+| 06 · Measurement | [`citation-anchoring`](06-measurement/citation-anchoring/) — a linkable source next to every claim | ✅ **published** (0 → 8 claim→source pairs) |
 
 ## Start here
 

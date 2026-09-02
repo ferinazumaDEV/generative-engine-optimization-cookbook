@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Why plain names confuse AI answer engines</title>
+  <meta name="description" content="Five everyday names — Jordan, Apple, Python, Amazon, Paris — that mean many different things.">
+  <!-- AFTER: every entity carries a canonical @id (Wikidata) and sameAs links
+       (Wikidata + Wikipedia). Each name now resolves to exactly one thing. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Why plain names confuse AI answer engines",
+    "about": [
+      {
+        "@type": "Person",
+        "name": "Michael Jordan",
+        "@id": "https://www.wikidata.org/wiki/Q41421",
+        "sameAs": [
+          "https://www.wikidata.org/wiki/Q41421",
+          "https://en.wikipedia.org/wiki/Michael_Jordan"
+        ]
+      },
+      {
+        "@type": "Organization",
+        "name": "Apple",
+        "@id": "https://www.wikidata.org/wiki/Q312",
+        "sameAs": [
+          "https://www.wikidata.org/wiki/Q312",
+          "https://en.wikipedia.org/wiki/Apple_Inc."
+        ]
+      },
+      {
+        "@type": "Thing",
+        "name": "Python",
+        "@id": "https://www.wikidata.org/wiki/Q28865",
+        "sameAs": [
+          "https://www.wikidata.org/wiki/Q28865",
+          "https://en.wikipedia.org/wiki/Python_(programming_language)"
+        ]
+      },
+      {
+        "@type": "Organization",
+        "name": "Amazon",
+        "@id": "https://www.wikidata.org/wiki/Q3884",
+        "sameAs": [
+          "https://www.wikidata.org/wiki/Q3884",
+          "https://en.wikipedia.org/wiki/Amazon_(company)"
+        ]
+      },
+      {
+        "@type": "Place",
+        "name": "Paris",
+        "@id": "https://www.wikidata.org/wiki/Q90",
+        "sameAs": [
+          "https://www.wikidata.org/wiki/Q90",
+          "https://en.wikipedia.org/wiki/Paris"
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <article>
+    <h1>Why plain names confuse AI answer engines</h1>
+    <p>
+      A single word can name a dozen different things. When an answer engine reads
+      <strong>Michael Jordan</strong>, does it mean the basketball player or the
+      machine-learning professor at Berkeley? <strong>Apple</strong> could be the
+      technology company or the fruit. <strong>Python</strong> is a programming
+      language, a snake, and a comedy troupe. <strong>Amazon</strong> is a retailer
+      and a river. <strong>Paris</strong> is a capital city, a town in Texas, and a
+      first name.
+    </p>
+    <p>
+      A human reader disambiguates these from context. A machine building an answer
+      has to guess — and a wrong guess pollutes the answer with the wrong entity.
+      This page pins each of the five entities to a canonical Wikidata ID and mirrors
+      it with <code>sameAs</code> links, so the machine no longer has to guess.
+    </p>
+  </article>
+</body>
+</html>

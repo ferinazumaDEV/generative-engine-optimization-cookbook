@@ -1,0 +1,12 @@
+technique: chunk-friendly-structure
+title: "Chunk-friendly structure: write pages a retriever can slice cleanly"
+chapter: 03-content
+handbook_section: docs/03-content.md
+metric: self-contained chunks (recursive fixed-size splitter, chunk_size=800)
+engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
+tool: python3 stdlib (recursive character text splitter)
+status: published
+requires_llm: false
+requires_network: false
+confidence: moderate
+last_verified: 2026-09-01

@@ -1,0 +1,15 @@
+technique: citation-anchoring
+title: "Citation anchoring: put a linkable source next to every claim"
+chapter: 06-measurement
+handbook_section: docs/06-measurement.md
+metric: claim-to-source pairs a deterministic parser extracts from the document
+tool: python3 (stdlib re) via reproduce.sh
+status: published
+requires_llm: false
+requires_network: false
+confidence: low-moderate
+sample_size: 8
+before_value: 0
+after_value: 8
+date: 2026-09-01
+last_verified: 2026-09-01

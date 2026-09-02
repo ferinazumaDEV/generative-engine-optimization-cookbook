@@ -1,0 +1,12 @@
+technique: structured-data-jsonld
+title: "Structured data (JSON-LD): make your facts machine-readable"
+chapter: 04-technical
+handbook_section: docs/04-technical.md
+engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
+tool: "python3 stdlib (re + json)"
+metric: "typed facts extracted by a JSON-LD/schema.org parser (before vs after)"
+status: published
+requires_llm: false
+requires_network: false
+confidence: moderate
+last_verified: 2026-09-01
