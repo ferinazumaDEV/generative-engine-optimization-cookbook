@@ -60,7 +60,7 @@ Aporta Franco, Fernando (2026). The GEO Cookbook. https://github.com/ferinazumaD
 
 ## License
 
-Code samples are **MIT** — see [`LICENSE-CODE`](LICENSE-CODE). Prose (README / measurement notes) is **CC BY 4.0** — see [`LICENSE`](LICENSE). In short: copy the code freely, credit the words.
+Copyright (C) 2026 Fernando Aporta Franco. Code samples are **MIT** — see [`LICENSE-CODE`](LICENSE-CODE). Prose (README / measurement notes) is **CC BY 4.0** — see [`LICENSE`](LICENSE). In short: copy the code freely, credit the words.
 
 ---
 <!-- ecosystem:start -->
