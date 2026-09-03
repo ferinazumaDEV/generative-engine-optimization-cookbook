@@ -39,7 +39,7 @@ New cited technique or a fix? Each example must carry a real, reproducible measu
 
 ## License
 
-Code samples are **MIT**; prose (README / measurement notes) is **CC BY 4.0**. See [`LICENSE`](LICENSE). In short: copy the code freely, credit the words.
+Code samples are **MIT** — see [`LICENSE-CODE`](LICENSE-CODE). Prose (README / measurement notes) is **CC BY 4.0** — see [`LICENSE`](LICENSE). In short: copy the code freely, credit the words.
 
 ---
 <!-- ecosystem:start -->
