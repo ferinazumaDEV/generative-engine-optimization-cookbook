@@ -9,11 +9,20 @@
 # default order) and counts how many chunks are SELF-CONTAINED: they begin at a
 # unit boundary (heading, list item, or a new sentence) AND end at one (terminal
 # punctuation or a heading line). No network, no browser, no LLM, no randomness.
+#
+# Usage: bash reproduce.sh [--json]
+#   (no flag)  human-readable table, unchanged
+#   --json     the same numbers as JSON on stdout, for dataset/build.sh
 set -euo pipefail
 cd "$(dirname "$0")"
 
+JSON=0
+for arg in "$@"; do
+  [ "$arg" = "--json" ] && JSON=1
+done
+
 python3 - "$@" <<'PY'
-import re, sys
+import json, re, sys
 
 CHUNK_SIZE = 800
 SEPARATORS = ["\n\n", "\n", " ", ""]
@@ -91,14 +100,50 @@ def measure(path):
     sc = sum(1 for c in chunks if self_contained(c))
     return len(chunks), sc
 
-print("%-8s %-22s %8s %18s %10s" % ("VARIANT", "STRUCTURE", "CHUNKS", "SELF-CONTAINED", "SHARE"))
+rows = []
 for variant, label in (("before", "wall of text"), ("after", "chunk-friendly")):
     total, sc = measure(f"{variant}/article.md")
     share = (sc / total * 100) if total else 0.0
-    print("%-8s %-22s %8d %18d %9.1f%%" % (variant, label, total, sc, share))
+    rows.append({"variant": variant, "structure": label,
+                 "chunks": total, "self_contained": sc,
+                 "self_contained_share_pct": share})
+
+if "--json" in sys.argv[1:]:
+    json.dump({
+        "technique": "chunk-friendly-structure",
+        "chapter": "03-content",
+        "handbook_section": "docs/03-content.md",
+        "title": "Chunk-friendly structure: write pages a retriever can slice cleanly",
+        "method": "deterministic-offline",
+        "requires_llm": False,
+        "requires_network": False,
+        "measurements": [
+            {"id": "self_contained_chunks", "role": "primary",
+             "metric": "chunks that come out self-contained from a fixed-size splitter (chunk_size = 800, no overlap)",
+             "unit": "chunks",
+             "before_value": rows[0]["self_contained"],
+             "after_value": rows[1]["self_contained"]},
+            {"id": "chunks_produced", "role": "denominator",
+             "metric": "chunks the splitter produces from the document",
+             "unit": "chunks",
+             "before_value": rows[0]["chunks"],
+             "after_value": rows[1]["chunks"]},
+        ],
+        "table": [dict(r, self_contained_share_pct=round(r["self_contained_share_pct"], 1))
+                  for r in rows],
+    }, sys.stdout, indent=2)
+    sys.stdout.write("\n")
+    sys.exit(0)
+
+print("%-8s %-22s %8s %18s %10s" % ("VARIANT", "STRUCTURE", "CHUNKS", "SELF-CONTAINED", "SHARE"))
+for r in rows:
+    print("%-8s %-22s %8d %18d %9.1f%%" % (r["variant"], r["structure"], r["chunks"],
+                                           r["self_contained"], r["self_contained_share_pct"]))
 PY
 
-echo
-echo "Both files contain the same prose. Only the after/ version is structured"
-echo "with headings, short sections and lists. Self-contained chunks are the ones"
-echo "a retriever can use on their own, without a neighbour to complete a sentence."
+if [ "$JSON" -eq 0 ]; then
+  echo
+  echo "Both files contain the same prose. Only the after/ version is structured"
+  echo "with headings, short sections and lists. Self-contained chunks are the ones"
+  echo "a retriever can use on their own, without a neighbour to complete a sentence."
+fi

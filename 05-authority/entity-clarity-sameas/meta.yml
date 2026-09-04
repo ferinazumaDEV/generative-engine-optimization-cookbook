@@ -1,14 +1,29 @@
+# Machine-readable front-matter. Schema: ../../dataset/SCHEMA.md (schema_version 1).
+# Every recipe carries the same keys in the same order; a key with no real
+# measured value is null, never estimated.
+schema_version: 1
 technique: entity-clarity-sameas
 title: "Entity clarity: disambiguate with sameAs + canonical IDs"
 chapter: 05-authority
 handbook_section: docs/05-authority.md
-engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
 status: published
+method: deterministic-offline
 requires_llm: false
 requires_network: false
 tool: "python3 stdlib (json, re, pathlib)"
-metric: "entities resolved unambiguously to a canonical Wikidata ID"
+engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
+metric: "named entities resolved to exactly one canonical Wikidata Q-ID via @id or sameAs"
+unit: entities
 before_value: 0
 after_value: 5
+secondary_metric: "named entities the page declares in its about list"
+secondary_unit: entities
+secondary_before_value: 5
+secondary_after_value: 5
+secondary_role: denominator
 sample_size: 5
-last_verified: 2026-09-01
+sample_unit: entities
+confidence: moderate
+measured_date: 2026-09-01
+last_verified: 2026-09-04
+limitations: "Measures the mechanical resolvability of each name to one canonical identifier, not whether any answer engine cites the page."

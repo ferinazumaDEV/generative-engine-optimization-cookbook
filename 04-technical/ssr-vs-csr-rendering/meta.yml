@@ -1,9 +1,29 @@
+# Machine-readable front-matter. Schema: ../../dataset/SCHEMA.md (schema_version 1).
+# Every recipe carries the same keys in the same order; a key with no real
+# measured value is null, never estimated.
+schema_version: 1
 technique: ssr-vs-csr-rendering
 title: "SSR vs CSR: make your content visible to AI crawlers"
 chapter: 04-technical
 handbook_section: docs/04-technical.md
-engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
 status: published
+method: deterministic-offline
 requires_llm: false
 requires_network: false
-last_verified: 2026-08-26
+tool: "perl + bash (tag/script stripping over the HTML source)"
+engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
+metric: "words of the HTML source a crawler that does not execute JavaScript can read"
+unit: words
+before_value: 6
+after_value: 152
+secondary_metric: null
+secondary_unit: null
+secondary_before_value: null
+secondary_after_value: null
+secondary_role: null
+sample_size: null
+sample_unit: null
+confidence: null
+measured_date: 2026-08-26
+last_verified: 2026-09-04
+limitations: "Measures the mechanical visibility of the text to a fetch-only crawler, not whether any answer engine cites the page."
