@@ -17,18 +17,27 @@
       "@id": "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook#work",
       "name": "The GEO Cookbook",
       "headline": "Runnable before/after demos of Generative Engine Optimization techniques",
+      "abstract": "Six reproducible experiments on the machine legibility of web content for generative answer engines. Each pairs a before/after artifact with a deterministic offline script, and reports the measured property with its proxy, sample size, confidence and limitations. The measurements are machine-legibility proxies only: none of them measures retrieval, reranking, generation or citation by any engine.",
+      "description": "Six reproducible experiments on the machine legibility of web content for generative answer engines. Each pairs a before/after artifact with a deterministic offline script, and reports the measured property with its proxy, sample size, confidence and limitations. The measurements are machine-legibility proxies only: none of them measures retrieval, reranking, generation or citation by any engine.",
       "about": "Generative Engine Optimization",
       "author": { "@id": "https://zentimes.es/#ferinazumaDEV" },
       "creator": { "@id": "https://zentimes.es/#ferinazumaDEV" },
+      "version": "0.1.1",
+      "dateModified": "2026-09-04",
       "license": [
-        "https://opensource.org/licenses/MIT",
-        "https://creativecommons.org/licenses/by/4.0/"
+        "https://creativecommons.org/licenses/by/4.0/",
+        "https://opensource.org/licenses/MIT"
       ],
+      "usageInfo": "Prose CC BY 4.0 (LICENSE); code samples MIT (LICENSES/MIT.txt)",
       "codeRepository": "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook",
       "url": "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook",
       "inLanguage": "en",
-      "keywords": ["generative engine optimization", "GEO", "AI search", "SSR", "structured data"],
+      "keywords": ["generative engine optimization", "GEO", "AI search", "answer engines", "machine legibility", "reproducible measurement"],
       "isBasedOn": "https://github.com/ferinazumaDEV/generative-engine-optimization-handbook",
+      "citation": [
+        { "@type": "ScholarlyArticle", "name": "Don't Measure Once: Measuring Visibility in AI Search (GEO)", "url": "https://arxiv.org/abs/2604.07585" },
+        { "@type": "Article", "name": "Measured, Not Claimed", "url": "https://zentimes.es/experiments/" }
+      ],
       "identifier": "https://doi.org/10.5281/zenodo.22299279",
       "sameAs": ["https://doi.org/10.5281/zenodo.22299279"]
     }
