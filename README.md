@@ -13,7 +13,7 @@ Every example is designed to be **run and verified by you** — most need no net
   after/           the optimized artifact
   measurement.md   method + numbers + date
   reproduce.sh     one command to re-run the demo and the measurement
-  meta.yml         machine-readable front-matter (technique, chapter, engines, date)
+  meta.yml         machine-readable front-matter (see dataset/SCHEMA.md)
 ```
 
 ## Techniques
@@ -41,6 +41,8 @@ Folders mirror the handbook's chapters. Theory-only chapters (foundations, engin
 | [`citation-anchoring`](06-measurement/citation-anchoring/) | Claims carrying an inline, linkable source (claim→source pairs a parser extracts): 0 → 8 of 8 | not measured | not measured | not measured | not measured |
 
 Each recipe measures a machine-legibility property of a controlled artifact — one page or one document in two variants, checked offline by a deterministic script. None of them claims an effect on retrieval, reranking, generation or citation by any engine; those four columns are the open research questions this cookbook does not answer. The proxy, sample size, confidence and limitations of each number are stated in the recipe's own `measurement.md`.
+
+The same numbers are also published as data in [`dataset/`](dataset/) — a CSV and a JSON file with one row per measurement, plus the units, sample sizes, confidence and limitations of each. They are generated from the recipes themselves with `bash dataset/build.sh`, which re-runs every `reproduce.sh --json` and refuses to write anything if a measured value disagrees with its recipe's front-matter. Read [`dataset/README.md`](dataset/README.md) before reusing them: it states what the rows do *not* show.
 
 ## Start here
 

@@ -1,11 +1,29 @@
+# Machine-readable front-matter. Schema: ../../dataset/SCHEMA.md (schema_version 1).
+# Every recipe carries the same keys in the same order; a key with no real
+# measured value is null, never estimated.
+schema_version: 1
 technique: ai-crawler-access
 title: "AI crawler access: allow AI crawlers in robots.txt + publish an llms.txt"
 chapter: 04-technical
 handbook_section: docs/04-technical.md
-engines: [GPTBot, ClaudeBot, anthropic-ai, PerplexityBot, Google-Extended, CCBot, Applebot-Extended, Bytespider]
-tool: "python3 (stdlib) + bash"
 status: published
+method: deterministic-offline
 requires_llm: false
 requires_network: false
-confidence: medium
-last_verified: 2026-09-01
+tool: "python3 stdlib + bash"
+engines: [GPTBot, ClaudeBot, anthropic-ai, PerplexityBot, Google-Extended, CCBot, Applebot-Extended, Bytespider]
+metric: "AI crawler user-agents allowed by robots.txt for path / (of the 8 tested)"
+unit: user-agents
+before_value: 0
+after_value: 8
+secondary_metric: "bytes of curated content exposed by llms.txt"
+secondary_unit: bytes
+secondary_before_value: 0
+secondary_after_value: 2868
+secondary_role: secondary
+sample_size: 8
+sample_unit: "AI crawler user-agents"
+confidence: moderate
+measured_date: 2026-09-01
+last_verified: 2026-09-04
+limitations: "Measures a precondition (reachability and an extractable feed), not whether any answer engine cites the page."

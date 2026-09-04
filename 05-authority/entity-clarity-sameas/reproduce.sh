@@ -5,8 +5,17 @@
 # "unambiguously resolved" when that set has exactly one member: a plain name with
 # no canonical link resolves to nothing (0); a name backed by one Wikidata ID
 # resolves to exactly one real-world thing (1). No network, no browser, no LLM.
+#
+# Usage: bash reproduce.sh [--json]
+#   (no flag)  human-readable table, unchanged
+#   --json     the same numbers as JSON on stdout, for dataset/build.sh
 set -euo pipefail
 cd "$(dirname "$0")"
+
+JSON=0
+for arg in "$@"; do
+  [ "$arg" = "--json" ] && JSON=1
+done
 
 python3 - "$@" <<'PY'
 import json, re, sys, pathlib
@@ -55,13 +64,46 @@ def score(path):
     resolved = sum(1 for e in ents if len(canonical_ids(e)) == 1)
     return len(ents), resolved
 
-print(f'{"VARIANT":<8} {"STRUCTURED DATA":<30} {"ENTITIES":>8} {"RESOLVED TO A CANONICAL ID":>28}')
+rows = []
 for variant, desc in (("before", "names only, no IDs"),
                       ("after",  "names + sameAs (Wikidata)")):
     total, resolved = score(f"{variant}/index.html")
-    print(f'{variant:<8} {desc:<30} {total:>8} {resolved:>28}')
+    rows.append({"variant": variant, "structured_data": desc,
+                 "entities": total, "entities_resolved": resolved})
+
+if "--json" in sys.argv[1:]:
+    json.dump({
+        "technique": "entity-clarity-sameas",
+        "chapter": "05-authority",
+        "handbook_section": "docs/05-authority.md",
+        "title": "Entity clarity: disambiguate with sameAs + canonical IDs",
+        "method": "deterministic-offline",
+        "requires_llm": False,
+        "requires_network": False,
+        "measurements": [
+            {"id": "entities_resolved", "role": "primary",
+             "metric": "named entities resolved to exactly one canonical Wikidata Q-ID via @id or sameAs",
+             "unit": "entities",
+             "before_value": rows[0]["entities_resolved"],
+             "after_value": rows[1]["entities_resolved"]},
+            {"id": "entities", "role": "denominator",
+             "metric": "named entities the page declares in its about list",
+             "unit": "entities",
+             "before_value": rows[0]["entities"],
+             "after_value": rows[1]["entities"]},
+        ],
+        "table": rows,
+    }, sys.stdout, indent=2)
+    sys.stdout.write("\n")
+    sys.exit(0)
+
+print(f'{"VARIANT":<8} {"STRUCTURED DATA":<30} {"ENTITIES":>8} {"RESOLVED TO A CANONICAL ID":>28}')
+for r in rows:
+    print(f'{r["variant"]:<8} {r["structured_data"]:<30} {r["entities"]:>8} {r["entities_resolved"]:>28}')
 PY
 
-echo
-echo "Both pages show the same article to a human."
-echo "Only the 'after' page lets a machine pin each name to exactly one real-world thing."
+if [ "$JSON" -eq 0 ]; then
+  echo
+  echo "Both pages show the same article to a human."
+  echo "Only the 'after' page lets a machine pin each name to exactly one real-world thing."
+fi

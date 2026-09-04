@@ -1,12 +1,29 @@
+# Machine-readable front-matter. Schema: ../../dataset/SCHEMA.md (schema_version 1).
+# Every recipe carries the same keys in the same order; a key with no real
+# measured value is null, never estimated.
+schema_version: 1
 technique: chunk-friendly-structure
 title: "Chunk-friendly structure: write pages a retriever can slice cleanly"
 chapter: 03-content
 handbook_section: docs/03-content.md
-metric: self-contained chunks (recursive fixed-size splitter, chunk_size=800)
-engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
-tool: python3 stdlib (recursive character text splitter)
 status: published
+method: deterministic-offline
 requires_llm: false
 requires_network: false
+tool: "python3 stdlib (recursive character text splitter)"
+engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
+metric: "chunks that come out self-contained from a fixed-size splitter (chunk_size = 800, no overlap)"
+unit: chunks
+before_value: 0
+after_value: 5
+secondary_metric: "chunks the splitter produces from the document"
+secondary_unit: chunks
+secondary_before_value: 5
+secondary_after_value: 5
+secondary_role: denominator
+sample_size: 1
+sample_unit: article
 confidence: moderate
-last_verified: 2026-09-01
+measured_date: 2026-09-01
+last_verified: 2026-09-04
+limitations: "Measures a machine-legibility proxy (whether a chunk stands alone after fixed-size splitting), not whether any answer engine cites the page."

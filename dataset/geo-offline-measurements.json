@@ -1,0 +1,721 @@
+{
+  "dataset": "GEO offline measurements",
+  "schema_version": 1,
+  "description": "Before/after values for six deterministic, offline machine-legibility measurements, one per recipe of the GEO Cookbook.",
+  "source_repository": "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook",
+  "schema_documentation": "dataset/SCHEMA.md",
+  "regenerate_with": "bash dataset/build.sh",
+  "license": {
+    "data": "CC-BY-4.0",
+    "code": "MIT"
+  },
+  "method": "deterministic-offline",
+  "requires_llm": false,
+  "requires_network": false,
+  "what_this_does_not_show": "Every value here is an offline, deterministic proxy for machine legibility measured on a controlled before/after artifact. None of them measures retrieval, reranking, generation or citation by any answer engine, and none of them establishes that any engine cites the 'after' variant more often.",
+  "recipe_count": 6,
+  "measurement_count": 11,
+  "recipes": [
+    {
+      "technique": "chunk-friendly-structure",
+      "title": "Chunk-friendly structure: write pages a retriever can slice cleanly",
+      "chapter": "03-content",
+      "recipe_path": "03-content/chunk-friendly-structure",
+      "handbook_section": "docs/03-content.md",
+      "status": "published",
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "tool": "python3 stdlib (recursive character text splitter)",
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "sample_size": 1,
+      "sample_unit": "article",
+      "confidence": "moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures a machine-legibility proxy (whether a chunk stands alone after fixed-size splitting), not whether any answer engine cites the page.",
+      "measurements": [
+        {
+          "id": "self_contained_chunks",
+          "role": "primary",
+          "metric": "chunks that come out self-contained from a fixed-size splitter (chunk_size = 800, no overlap)",
+          "unit": "chunks",
+          "before_value": 0,
+          "after_value": 5
+        },
+        {
+          "id": "chunks_produced",
+          "role": "denominator",
+          "metric": "chunks the splitter produces from the document",
+          "unit": "chunks",
+          "before_value": 5,
+          "after_value": 5
+        }
+      ],
+      "variants": [
+        {
+          "variant": "before",
+          "structure": "wall of text",
+          "chunks": 5,
+          "self_contained": 0,
+          "self_contained_share_pct": 0.0
+        },
+        {
+          "variant": "after",
+          "structure": "chunk-friendly",
+          "chunks": 5,
+          "self_contained": 5,
+          "self_contained_share_pct": 100.0
+        }
+      ]
+    },
+    {
+      "technique": "ssr-vs-csr-rendering",
+      "title": "SSR vs CSR: make your content visible to AI crawlers",
+      "chapter": "04-technical",
+      "recipe_path": "04-technical/ssr-vs-csr-rendering",
+      "handbook_section": "docs/04-technical.md",
+      "status": "published",
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "tool": "perl + bash (tag/script stripping over the HTML source)",
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "sample_size": null,
+      "sample_unit": null,
+      "confidence": null,
+      "measured_date": "2026-08-26",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures the mechanical visibility of the text to a fetch-only crawler, not whether any answer engine cites the page.",
+      "measurements": [
+        {
+          "id": "words_visible_no_js",
+          "role": "primary",
+          "metric": "words of the HTML source a crawler that does not execute JavaScript can read",
+          "unit": "words",
+          "before_value": 6,
+          "after_value": 152
+        }
+      ],
+      "variants": [
+        {
+          "variant": "before",
+          "rendering": "client-side (CSR)",
+          "words_visible_no_js": 6
+        },
+        {
+          "variant": "after",
+          "rendering": "server-side (SSR/SSG)",
+          "words_visible_no_js": 152
+        }
+      ]
+    },
+    {
+      "technique": "structured-data-jsonld",
+      "title": "Structured data (JSON-LD): make your facts machine-readable",
+      "chapter": "04-technical",
+      "recipe_path": "04-technical/structured-data-jsonld",
+      "handbook_section": "docs/04-technical.md",
+      "status": "published",
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "tool": "python3 stdlib (re + json)",
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "sample_size": 2,
+      "sample_unit": "artefacts (one page, two variants)",
+      "confidence": "moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures the extractability of typed statements from the page source, not whether any answer engine cites the page.",
+      "measurements": [
+        {
+          "id": "typed_facts",
+          "role": "primary",
+          "metric": "typed facts a JSON-LD/schema.org parser extracts (keys other than @context/@type on a typed object)",
+          "unit": "typed facts",
+          "before_value": 0,
+          "after_value": 37
+        },
+        {
+          "id": "typed_entities",
+          "role": "secondary",
+          "metric": "typed entities a JSON-LD/schema.org parser extracts (objects carrying an @type)",
+          "unit": "typed entities",
+          "before_value": 0,
+          "after_value": 17
+        }
+      ],
+      "variants": [
+        {
+          "variant": "before",
+          "jsonld_present": "no",
+          "typed_entities": 0,
+          "typed_facts": 0
+        },
+        {
+          "variant": "after",
+          "jsonld_present": "yes",
+          "typed_entities": 17,
+          "typed_facts": 37
+        }
+      ]
+    },
+    {
+      "technique": "ai-crawler-access",
+      "title": "AI crawler access: allow AI crawlers in robots.txt + publish an llms.txt",
+      "chapter": "04-technical",
+      "recipe_path": "04-technical/ai-crawler-access",
+      "handbook_section": "docs/04-technical.md",
+      "status": "published",
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "tool": "python3 stdlib + bash",
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "anthropic-ai",
+        "PerplexityBot",
+        "Google-Extended",
+        "CCBot",
+        "Applebot-Extended",
+        "Bytespider"
+      ],
+      "sample_size": 8,
+      "sample_unit": "AI crawler user-agents",
+      "confidence": "moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures a precondition (reachability and an extractable feed), not whether any answer engine cites the page.",
+      "measurements": [
+        {
+          "id": "ai_user_agents_allowed",
+          "role": "primary",
+          "metric": "AI crawler user-agents allowed by robots.txt for path / (of the 8 tested)",
+          "unit": "user-agents",
+          "before_value": 0,
+          "after_value": 8
+        },
+        {
+          "id": "llms_txt_bytes",
+          "role": "secondary",
+          "metric": "bytes of curated content exposed by llms.txt",
+          "unit": "bytes",
+          "before_value": 0,
+          "after_value": 2868
+        }
+      ],
+      "variants": [
+        {
+          "variant": "before",
+          "robots_policy": "blocks AI crawlers",
+          "llms_txt": "absent",
+          "ai_user_agents_allowed": 0,
+          "ai_user_agents_tested": 8,
+          "llms_txt_bytes": 0
+        },
+        {
+          "variant": "after",
+          "robots_policy": "allows AI crawlers",
+          "llms_txt": "present",
+          "ai_user_agents_allowed": 8,
+          "ai_user_agents_tested": 8,
+          "llms_txt_bytes": 2868
+        }
+      ]
+    },
+    {
+      "technique": "entity-clarity-sameas",
+      "title": "Entity clarity: disambiguate with sameAs + canonical IDs",
+      "chapter": "05-authority",
+      "recipe_path": "05-authority/entity-clarity-sameas",
+      "handbook_section": "docs/05-authority.md",
+      "status": "published",
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "tool": "python3 stdlib (json, re, pathlib)",
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "sample_size": 5,
+      "sample_unit": "entities",
+      "confidence": "moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures the mechanical resolvability of each name to one canonical identifier, not whether any answer engine cites the page.",
+      "measurements": [
+        {
+          "id": "entities_resolved",
+          "role": "primary",
+          "metric": "named entities resolved to exactly one canonical Wikidata Q-ID via @id or sameAs",
+          "unit": "entities",
+          "before_value": 0,
+          "after_value": 5
+        },
+        {
+          "id": "entities",
+          "role": "denominator",
+          "metric": "named entities the page declares in its about list",
+          "unit": "entities",
+          "before_value": 5,
+          "after_value": 5
+        }
+      ],
+      "variants": [
+        {
+          "variant": "before",
+          "structured_data": "names only, no IDs",
+          "entities": 5,
+          "entities_resolved": 0
+        },
+        {
+          "variant": "after",
+          "structured_data": "names + sameAs (Wikidata)",
+          "entities": 5,
+          "entities_resolved": 5
+        }
+      ]
+    },
+    {
+      "technique": "citation-anchoring",
+      "title": "Citation anchoring: put a linkable source next to every claim",
+      "chapter": "06-measurement",
+      "recipe_path": "06-measurement/citation-anchoring",
+      "handbook_section": "docs/06-measurement.md",
+      "status": "published",
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "tool": "python3 stdlib (re) via bash",
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "sample_size": 8,
+      "sample_unit": "claims",
+      "confidence": "low-moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures how many claim-to-source pairs a parser can lift from the document, not whether any answer engine cites the page.",
+      "measurements": [
+        {
+          "id": "claim_source_pairs",
+          "role": "primary",
+          "metric": "claim-to-source pairs a deterministic parser extracts (a claim line carrying an inline http(s) link)",
+          "unit": "claim-source pairs",
+          "before_value": 0,
+          "after_value": 8
+        },
+        {
+          "id": "claims",
+          "role": "denominator",
+          "metric": "claims inside the marked claims block",
+          "unit": "claims",
+          "before_value": 8,
+          "after_value": 8
+        }
+      ],
+      "variants": [
+        {
+          "variant": "before",
+          "document": "unsourced",
+          "claims": 8,
+          "claim_source_pairs": 0
+        },
+        {
+          "variant": "after",
+          "document": "citation-anchored",
+          "claims": 8,
+          "claim_source_pairs": 8
+        }
+      ]
+    }
+  ],
+  "measurements": [
+    {
+      "technique": "chunk-friendly-structure",
+      "chapter": "03-content",
+      "handbook_section": "docs/03-content.md",
+      "title": "Chunk-friendly structure: write pages a retriever can slice cleanly",
+      "metric_id": "self_contained_chunks",
+      "metric_role": "primary",
+      "metric": "chunks that come out self-contained from a fixed-size splitter (chunk_size = 800, no overlap)",
+      "unit": "chunks",
+      "before_value": 0,
+      "after_value": 5,
+      "absolute_change": 5,
+      "ratio_after_over_before": null,
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "tool": "python3 stdlib (recursive character text splitter)",
+      "sample_size": 1,
+      "sample_unit": "article",
+      "confidence": "moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures a machine-legibility proxy (whether a chunk stands alone after fixed-size splitting), not whether any answer engine cites the page.",
+      "recipe_path": "03-content/chunk-friendly-structure"
+    },
+    {
+      "technique": "chunk-friendly-structure",
+      "chapter": "03-content",
+      "handbook_section": "docs/03-content.md",
+      "title": "Chunk-friendly structure: write pages a retriever can slice cleanly",
+      "metric_id": "chunks_produced",
+      "metric_role": "denominator",
+      "metric": "chunks the splitter produces from the document",
+      "unit": "chunks",
+      "before_value": 5,
+      "after_value": 5,
+      "absolute_change": 0,
+      "ratio_after_over_before": 1.0,
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "tool": "python3 stdlib (recursive character text splitter)",
+      "sample_size": 1,
+      "sample_unit": "article",
+      "confidence": "moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures a machine-legibility proxy (whether a chunk stands alone after fixed-size splitting), not whether any answer engine cites the page.",
+      "recipe_path": "03-content/chunk-friendly-structure"
+    },
+    {
+      "technique": "ssr-vs-csr-rendering",
+      "chapter": "04-technical",
+      "handbook_section": "docs/04-technical.md",
+      "title": "SSR vs CSR: make your content visible to AI crawlers",
+      "metric_id": "words_visible_no_js",
+      "metric_role": "primary",
+      "metric": "words of the HTML source a crawler that does not execute JavaScript can read",
+      "unit": "words",
+      "before_value": 6,
+      "after_value": 152,
+      "absolute_change": 146,
+      "ratio_after_over_before": 25.33,
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "tool": "perl + bash (tag/script stripping over the HTML source)",
+      "sample_size": null,
+      "sample_unit": null,
+      "confidence": null,
+      "measured_date": "2026-08-26",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures the mechanical visibility of the text to a fetch-only crawler, not whether any answer engine cites the page.",
+      "recipe_path": "04-technical/ssr-vs-csr-rendering"
+    },
+    {
+      "technique": "structured-data-jsonld",
+      "chapter": "04-technical",
+      "handbook_section": "docs/04-technical.md",
+      "title": "Structured data (JSON-LD): make your facts machine-readable",
+      "metric_id": "typed_facts",
+      "metric_role": "primary",
+      "metric": "typed facts a JSON-LD/schema.org parser extracts (keys other than @context/@type on a typed object)",
+      "unit": "typed facts",
+      "before_value": 0,
+      "after_value": 37,
+      "absolute_change": 37,
+      "ratio_after_over_before": null,
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "tool": "python3 stdlib (re + json)",
+      "sample_size": 2,
+      "sample_unit": "artefacts (one page, two variants)",
+      "confidence": "moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures the extractability of typed statements from the page source, not whether any answer engine cites the page.",
+      "recipe_path": "04-technical/structured-data-jsonld"
+    },
+    {
+      "technique": "structured-data-jsonld",
+      "chapter": "04-technical",
+      "handbook_section": "docs/04-technical.md",
+      "title": "Structured data (JSON-LD): make your facts machine-readable",
+      "metric_id": "typed_entities",
+      "metric_role": "secondary",
+      "metric": "typed entities a JSON-LD/schema.org parser extracts (objects carrying an @type)",
+      "unit": "typed entities",
+      "before_value": 0,
+      "after_value": 17,
+      "absolute_change": 17,
+      "ratio_after_over_before": null,
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "tool": "python3 stdlib (re + json)",
+      "sample_size": 2,
+      "sample_unit": "artefacts (one page, two variants)",
+      "confidence": "moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures the extractability of typed statements from the page source, not whether any answer engine cites the page.",
+      "recipe_path": "04-technical/structured-data-jsonld"
+    },
+    {
+      "technique": "ai-crawler-access",
+      "chapter": "04-technical",
+      "handbook_section": "docs/04-technical.md",
+      "title": "AI crawler access: allow AI crawlers in robots.txt + publish an llms.txt",
+      "metric_id": "ai_user_agents_allowed",
+      "metric_role": "primary",
+      "metric": "AI crawler user-agents allowed by robots.txt for path / (of the 8 tested)",
+      "unit": "user-agents",
+      "before_value": 0,
+      "after_value": 8,
+      "absolute_change": 8,
+      "ratio_after_over_before": null,
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "anthropic-ai",
+        "PerplexityBot",
+        "Google-Extended",
+        "CCBot",
+        "Applebot-Extended",
+        "Bytespider"
+      ],
+      "tool": "python3 stdlib + bash",
+      "sample_size": 8,
+      "sample_unit": "AI crawler user-agents",
+      "confidence": "moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures a precondition (reachability and an extractable feed), not whether any answer engine cites the page.",
+      "recipe_path": "04-technical/ai-crawler-access"
+    },
+    {
+      "technique": "ai-crawler-access",
+      "chapter": "04-technical",
+      "handbook_section": "docs/04-technical.md",
+      "title": "AI crawler access: allow AI crawlers in robots.txt + publish an llms.txt",
+      "metric_id": "llms_txt_bytes",
+      "metric_role": "secondary",
+      "metric": "bytes of curated content exposed by llms.txt",
+      "unit": "bytes",
+      "before_value": 0,
+      "after_value": 2868,
+      "absolute_change": 2868,
+      "ratio_after_over_before": null,
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "anthropic-ai",
+        "PerplexityBot",
+        "Google-Extended",
+        "CCBot",
+        "Applebot-Extended",
+        "Bytespider"
+      ],
+      "tool": "python3 stdlib + bash",
+      "sample_size": 8,
+      "sample_unit": "AI crawler user-agents",
+      "confidence": "moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures a precondition (reachability and an extractable feed), not whether any answer engine cites the page.",
+      "recipe_path": "04-technical/ai-crawler-access"
+    },
+    {
+      "technique": "entity-clarity-sameas",
+      "chapter": "05-authority",
+      "handbook_section": "docs/05-authority.md",
+      "title": "Entity clarity: disambiguate with sameAs + canonical IDs",
+      "metric_id": "entities_resolved",
+      "metric_role": "primary",
+      "metric": "named entities resolved to exactly one canonical Wikidata Q-ID via @id or sameAs",
+      "unit": "entities",
+      "before_value": 0,
+      "after_value": 5,
+      "absolute_change": 5,
+      "ratio_after_over_before": null,
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "tool": "python3 stdlib (json, re, pathlib)",
+      "sample_size": 5,
+      "sample_unit": "entities",
+      "confidence": "moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures the mechanical resolvability of each name to one canonical identifier, not whether any answer engine cites the page.",
+      "recipe_path": "05-authority/entity-clarity-sameas"
+    },
+    {
+      "technique": "entity-clarity-sameas",
+      "chapter": "05-authority",
+      "handbook_section": "docs/05-authority.md",
+      "title": "Entity clarity: disambiguate with sameAs + canonical IDs",
+      "metric_id": "entities",
+      "metric_role": "denominator",
+      "metric": "named entities the page declares in its about list",
+      "unit": "entities",
+      "before_value": 5,
+      "after_value": 5,
+      "absolute_change": 0,
+      "ratio_after_over_before": 1.0,
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "tool": "python3 stdlib (json, re, pathlib)",
+      "sample_size": 5,
+      "sample_unit": "entities",
+      "confidence": "moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures the mechanical resolvability of each name to one canonical identifier, not whether any answer engine cites the page.",
+      "recipe_path": "05-authority/entity-clarity-sameas"
+    },
+    {
+      "technique": "citation-anchoring",
+      "chapter": "06-measurement",
+      "handbook_section": "docs/06-measurement.md",
+      "title": "Citation anchoring: put a linkable source next to every claim",
+      "metric_id": "claim_source_pairs",
+      "metric_role": "primary",
+      "metric": "claim-to-source pairs a deterministic parser extracts (a claim line carrying an inline http(s) link)",
+      "unit": "claim-source pairs",
+      "before_value": 0,
+      "after_value": 8,
+      "absolute_change": 8,
+      "ratio_after_over_before": null,
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "tool": "python3 stdlib (re) via bash",
+      "sample_size": 8,
+      "sample_unit": "claims",
+      "confidence": "low-moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures how many claim-to-source pairs a parser can lift from the document, not whether any answer engine cites the page.",
+      "recipe_path": "06-measurement/citation-anchoring"
+    },
+    {
+      "technique": "citation-anchoring",
+      "chapter": "06-measurement",
+      "handbook_section": "docs/06-measurement.md",
+      "title": "Citation anchoring: put a linkable source next to every claim",
+      "metric_id": "claims",
+      "metric_role": "denominator",
+      "metric": "claims inside the marked claims block",
+      "unit": "claims",
+      "before_value": 8,
+      "after_value": 8,
+      "absolute_change": 0,
+      "ratio_after_over_before": 1.0,
+      "method": "deterministic-offline",
+      "requires_llm": false,
+      "requires_network": false,
+      "engines": [
+        "GPTBot",
+        "ClaudeBot",
+        "PerplexityBot",
+        "Google-Extended",
+        "Bingbot"
+      ],
+      "tool": "python3 stdlib (re) via bash",
+      "sample_size": 8,
+      "sample_unit": "claims",
+      "confidence": "low-moderate",
+      "measured_date": "2026-09-01",
+      "last_verified": "2026-09-04",
+      "limitations": "Measures how many claim-to-source pairs a parser can lift from the document, not whether any answer engine cites the page.",
+      "recipe_path": "06-measurement/citation-anchoring"
+    }
+  ]
+}

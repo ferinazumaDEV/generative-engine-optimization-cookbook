@@ -1,12 +1,29 @@
+# Machine-readable front-matter. Schema: ../../dataset/SCHEMA.md (schema_version 1).
+# Every recipe carries the same keys in the same order; a key with no real
+# measured value is null, never estimated.
+schema_version: 1
 technique: structured-data-jsonld
 title: "Structured data (JSON-LD): make your facts machine-readable"
 chapter: 04-technical
 handbook_section: docs/04-technical.md
-engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
-tool: "python3 stdlib (re + json)"
-metric: "typed facts extracted by a JSON-LD/schema.org parser (before vs after)"
 status: published
+method: deterministic-offline
 requires_llm: false
 requires_network: false
+tool: "python3 stdlib (re + json)"
+engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
+metric: "typed facts a JSON-LD/schema.org parser extracts (keys other than @context/@type on a typed object)"
+unit: typed facts
+before_value: 0
+after_value: 37
+secondary_metric: "typed entities a JSON-LD/schema.org parser extracts (objects carrying an @type)"
+secondary_unit: typed entities
+secondary_before_value: 0
+secondary_after_value: 17
+secondary_role: secondary
+sample_size: 2
+sample_unit: "artefacts (one page, two variants)"
 confidence: moderate
-last_verified: 2026-09-01
+measured_date: 2026-09-01
+last_verified: 2026-09-04
+limitations: "Measures the extractability of typed statements from the page source, not whether any answer engine cites the page."

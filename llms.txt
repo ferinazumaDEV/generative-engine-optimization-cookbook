@@ -13,6 +13,7 @@
 ## Meta
 - [README](README.md): how recipes are structured (before / after / measurement / reproduce).
 - [Ecosystem](ECOSYSTEM.md): how this fits the ferinazumaDEV GEO cluster.
+- [Offline measurements dataset](dataset/README.md): the six recipes' before/after numbers as CSV and JSON, with units, sample sizes and limitations; regenerated from the recipes with one command.
 
 ## Related
 - [The GEO Handbook](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook): the theory each recipe demonstrates.

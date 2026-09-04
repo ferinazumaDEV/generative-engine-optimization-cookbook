@@ -1,15 +1,29 @@
+# Machine-readable front-matter. Schema: ../../dataset/SCHEMA.md (schema_version 1).
+# Every recipe carries the same keys in the same order; a key with no real
+# measured value is null, never estimated.
+schema_version: 1
 technique: citation-anchoring
 title: "Citation anchoring: put a linkable source next to every claim"
 chapter: 06-measurement
 handbook_section: docs/06-measurement.md
-metric: claim-to-source pairs a deterministic parser extracts from the document
-tool: python3 (stdlib re) via reproduce.sh
 status: published
+method: deterministic-offline
 requires_llm: false
 requires_network: false
-confidence: low-moderate
-sample_size: 8
+tool: "python3 stdlib (re) via bash"
+engines: [GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot]
+metric: "claim-to-source pairs a deterministic parser extracts (a claim line carrying an inline http(s) link)"
+unit: claim-source pairs
 before_value: 0
 after_value: 8
-date: 2026-09-01
-last_verified: 2026-09-01
+secondary_metric: "claims inside the marked claims block"
+secondary_unit: claims
+secondary_before_value: 8
+secondary_after_value: 8
+secondary_role: denominator
+sample_size: 8
+sample_unit: claims
+confidence: low-moderate
+measured_date: 2026-09-01
+last_verified: 2026-09-04
+limitations: "Measures how many claim-to-source pairs a parser can lift from the document, not whether any answer engine cites the page."
