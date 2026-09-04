@@ -2,7 +2,7 @@
 
 **Question:** given the same prose and the same fixed-size chunker, how many chunks come out *self-contained* — usable on their own by a retriever — depending only on how the document is structured?
 
-**Method:** each variant is split with a standard **recursive character text splitter** (`chunk_size = 800`, no overlap, separator order `["\n\n", "\n", " ", ""]` — the langchain default). This is the realistic default a RAG pipeline uses: it prefers to break on paragraph, then line, then word boundaries, and only hard-cuts when a single block exceeds the size. Each resulting chunk is then classified **self-contained** if BOTH hold:
+**Method:** each variant is split with a standard **recursive character text splitter** (`chunk_size = 800`, no overlap, separator order `["\n\n", "\n", " ", ""]` — the [LangChain RecursiveCharacterTextSplitter default](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter)). This is the realistic default a RAG pipeline uses: it prefers to break on paragraph, then line, then word boundaries, and only hard-cuts when a single block exceeds the size. Each resulting chunk is then classified **self-contained** if BOTH hold:
 
 - **starts clean** — the first non-whitespace character begins a unit: a heading (`#`), a list marker (`-`, `*`, `>`), a digit, or an uppercase letter (a new sentence). A mid-sentence hard cut starts with a lowercase continuation word and fails this.
 - **ends clean** — the chunk ends with terminal punctuation (`.`, `!`, `?`, `:`) or its last line is a heading. A chunk cut mid-sentence ends on a bare word and fails this.
