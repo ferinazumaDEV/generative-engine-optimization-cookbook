@@ -74,7 +74,7 @@ New cited technique or a fix? Each example must carry a real, reproducible measu
 
 ## How to cite
 
-Every tagged release is archived on Zenodo with a DOI. Cite the **concept DOI** — it always resolves to the latest release. Each individual release also carries its own version DOI, on its own record page, if you need to pin one exact state of the corpus.
+Every tagged release from v0.1.1 onward is archived on Zenodo with a DOI. Cite the **concept DOI** — it always resolves to the latest release. Each individual release also carries its own version DOI, on its own record page, if you need to pin one exact state of the corpus.
 
 ```
 Aporta Franco, Fernando (2026). The GEO Cookbook. Zenodo. https://doi.org/10.5281/zenodo.22299279
