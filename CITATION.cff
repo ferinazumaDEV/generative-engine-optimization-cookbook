@@ -6,8 +6,33 @@ authors:
   - family-names: "Aporta Franco"
     given-names: "Fernando"
     alias: ferinazumaDEV
+abstract: >-
+  Six reproducible experiments on the machine legibility of web content for
+  generative answer engines. Each pairs a before/after artifact with a
+  deterministic offline script, and reports the measured property with its
+  proxy, sample size, confidence and limitations. The measurements are
+  machine-legibility proxies only: none of them measures retrieval, reranking,
+  generation or citation by any engine.
 repository-code: "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook"
 url: "https://zentimes.es"
-license:
-  - MIT
-  - CC-BY-4.0
+# ONE license id here, deliberately. This repository IS dual-licensed — prose
+# CC BY 4.0 (root LICENSE), code samples MIT (LICENSES/MIT.txt) — and README.md
+# is where that is stated. Do not restore the list. This file is what Zenodo
+# reads to archive a release, and its deposit format takes a single license id:
+# a YAML list here converts to {"id": ["MIT", "CC-BY-4.0"]}, Zenodo rejects the
+# deposit, and the release is archived as Failed with no DOI minted. That is
+# not a guess — it is what happened to v0.1.0 on 4 Sep 2026, reproduced with
+# cffconvert 2.0.0. Keep this value equal to the root LICENSE, which is also
+# what GitHub's own license detection reports.
+license: CC-BY-4.0
+# version and date-released must be bumped together with the git tag; the tag
+# is the source of truth, these two are the copy CFF requires.
+version: "0.1.1"
+date-released: "2026-09-04"
+keywords:
+  - generative engine optimization
+  - GEO
+  - AI search
+  - answer engines
+  - machine legibility
+  - reproducible measurement

@@ -14,6 +14,26 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 
 ## [Unreleased]
 
+## [0.1.1] — 2026-09-04
+
+Metadata only. No recipe, script, measurement or dataset row changed; `v0.1.0` and
+`v0.1.1` contain byte-identical experiments.
+
+### Fixed
+
+- **`CITATION.cff` declared two licences as a YAML list.** That is valid CFF, but it
+  converts to `{"id": ["MIT", "CC-BY-4.0"]}` in Zenodo's deposit format, which takes a
+  single licence id. Zenodo rejected the deposit and archived the `v0.1.0` release as
+  *Failed*, so no DOI was minted. The file now declares `CC-BY-4.0`, matching the root
+  `LICENSE` and GitHub's own detection; the dual licence is unchanged and stated in
+  [README](README.md#license) and `LICENSES/MIT.txt`. A comment in `CITATION.cff`
+  records why the list must not come back.
+
+### Added
+
+- `abstract`, `keywords`, `version` and `date-released` in `CITATION.cff`, so the
+  archived record carries a description and subject terms rather than a bare title.
+
 ## [0.1.0] — 2026-09-04
 
 First tagged state of the corpus: six reproducible recipes and the dataset that
