@@ -14,6 +14,14 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 
 ## [Unreleased]
 
+### Added
+
+- **DOI.** `v0.1.1` is archived on Zenodo, so the cookbook is now citable by a
+  persistent identifier instead of a repository URL. The concept DOI
+  [`10.5281/zenodo.22299279`](https://doi.org/10.5281/zenodo.22299279) always resolves to the latest release;
+  each release also gets its own version DOI. Recorded in the README badge and
+  citation, `CITATION.cff`, `about.jsonld` and `llms.txt`.
+
 ## [0.1.1] — 2026-09-04
 
 Metadata only. No recipe, script, measurement or dataset row changed; `v0.1.0` and

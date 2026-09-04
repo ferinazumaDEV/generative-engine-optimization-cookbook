@@ -11,6 +11,7 @@
 - [Citation anchoring](06-measurement/citation-anchoring/): how many claims carry an inline, linkable source a parser can lift as a claim→source pair — measured 0 → 8 of 8 claim→source pairs, reproducible offline.
 
 ## Meta
+- [Archived releases (Zenodo)](https://doi.org/10.5281/zenodo.22299279): every tagged release archived with a DOI; this concept DOI always resolves to the latest one. Cite this rather than the repository URL.
 - [README](README.md): how recipes are structured (before / after / measurement / reproduce).
 - [Ecosystem](ECOSYSTEM.md): how this fits the ferinazumaDEV GEO cluster.
 - [Offline measurements dataset](dataset/README.md): the six recipes' before/after numbers as CSV and JSON, with units, sample sizes and limitations; regenerated from the recipes with one command.

@@ -1,5 +1,7 @@
 # The GEO Cookbook
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22299279.svg)](https://doi.org/10.5281/zenodo.22299279)
+
 **Reproducible, measured examples of the techniques that get your content cited by AI answer engines** — the hands-on companion to **[The GEO Handbook](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook)**. The handbook is the *theory* (what to do and why, with sources); this cookbook is the *practice*: for each technique, a `before/` and an `after/`, a one-command way to reproduce it, and the numbers it moves.
 
 Every example is designed to be **run and verified by you** — most need no network, no browser and no LLM. Where a claim can only be measured, we measure it and date it; where it can't be, we say so.
@@ -54,11 +56,13 @@ New cited technique or a fix? Each example must carry a real, reproducible measu
 
 ## How to cite
 
-Citation metadata lives in [`CITATION.cff`](CITATION.cff); GitHub renders it as the **"Cite this repository"** button in the sidebar (see [about citation files](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files)). Plain text:
+Every tagged release is archived on Zenodo with a DOI. Cite the **concept DOI** — it always resolves to the latest release. Each individual release also carries its own version DOI, on its own record page, if you need to pin one exact state of the corpus.
 
 ```
-Aporta Franco, Fernando (2026). The GEO Cookbook. https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook (hub: https://zentimes.es)
+Aporta Franco, Fernando (2026). The GEO Cookbook. Zenodo. https://doi.org/10.5281/zenodo.22299279
 ```
+
+The same metadata lives in [`CITATION.cff`](CITATION.cff), which GitHub renders as the **"Cite this repository"** button in the sidebar (see [about citation files](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-citation-files)).
 
 ## License
 

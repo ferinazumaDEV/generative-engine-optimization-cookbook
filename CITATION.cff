@@ -15,6 +15,13 @@ abstract: >-
   generation or citation by any engine.
 repository-code: "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook"
 url: "https://zentimes.es"
+# Concept DOI: resolves to the latest archived release, so it does not change when a
+# new version is tagged. Version DOIs live on the Zenodo record page, not here.
+doi: "10.5281/zenodo.22299279"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22299279"
+    description: "Concept DOI — always the latest version"
 # ONE license id here, deliberately. This repository IS dual-licensed — prose
 # CC BY 4.0 (root LICENSE), code samples MIT (LICENSES/MIT.txt) — and README.md
 # is where that is stated. Do not restore the list. This file is what Zenodo

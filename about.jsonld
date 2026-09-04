@@ -28,7 +28,9 @@
       "url": "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook",
       "inLanguage": "en",
       "keywords": ["generative engine optimization", "GEO", "AI search", "SSR", "structured data"],
-      "isBasedOn": "https://github.com/ferinazumaDEV/generative-engine-optimization-handbook"
+      "isBasedOn": "https://github.com/ferinazumaDEV/generative-engine-optimization-handbook",
+      "identifier": "https://doi.org/10.5281/zenodo.22299279",
+      "sameAs": ["https://doi.org/10.5281/zenodo.22299279"]
     }
   ]
 }
