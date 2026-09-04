@@ -1,6 +1,6 @@
 # SSR vs CSR — make your content visible to AI crawlers
 
-**If your page renders its main content with client-side JavaScript, most AI crawlers will not see it.** Bots like GPTBot, ClaudeBot and PerplexityBot fetch your HTML but do not reliably execute JavaScript. A client-side-rendered (CSR) page looks empty to them — and empty pages do not get cited. Server-side rendering (SSR) or static generation (SSG) puts the content in the HTML itself, where every crawler can read and quote it.
+**If your page renders its main content with client-side JavaScript, most AI crawlers will not see it.** Bots like GPTBot, ClaudeBot and PerplexityBot fetch your HTML but do not reliably execute JavaScript ([handbook, Chapter 04 — the JavaScript problem](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook/blob/main/docs/04-technical.md#rendering-and-crawlability-the-javascript-problem)). A client-side-rendered (CSR) page looks empty to them — and empty pages do not get cited. Server-side rendering (SSR) or static generation (SSG) puts the content in the HTML itself, where every crawler can read and quote it.
 
 > In this example, the CSR page exposes **6 words** to a no-JS crawler; the SSR page exposes **152** — the *same article*, about **25× more visible**. Measured, dated and reproducible below.
 
@@ -40,7 +40,7 @@ Visibility is a *precondition* for citation — an empty page cannot be quoted �
 ## FAQ
 
 **Do AI crawlers really not run JavaScript?**
-Most fetch HTML and parse it without a full browser render; rendering, where it happens at all, is slower and rate-limited. Making your main content depend on client-side JS is a bet you do not need to make. *(Engine behavior shifts — see the handbook chapter for current, sourced detail.)*
+Most fetch HTML and parse it without a full browser render; rendering, where it happens at all, is slower and rate-limited. Making your main content depend on client-side JS is a bet you do not need to make. *(Engine behavior shifts — see [handbook, Chapter 04 — the JavaScript problem](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook/blob/main/docs/04-technical.md#rendering-and-crawlability-the-javascript-problem) for current, sourced detail.)*
 
 **Isn't this just SEO?**
 The mechanism overlaps with classic crawlability, but the stakes differ: in GEO the page must be *extractable into an answer*, not merely indexed. Invisible content cannot be quoted.
