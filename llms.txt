@@ -4,6 +4,11 @@
 
 ## Recipes
 - [SSR vs CSR rendering](04-technical/ssr-vs-csr-rendering/): what an AI crawler sees with and without JavaScript — measured 6 → 152 visible words (~25×), reproducible offline.
+- [Structured data (JSON-LD)](04-technical/structured-data-jsonld/): how many typed facts a schema.org / JSON-LD parser can extract from the page — measured 0 → 17 typed entities and 0 → 37 typed facts, reproducible offline.
+- [AI crawler access](04-technical/ai-crawler-access/): whether AI crawlers are allowed by robots.txt and handed a curated llms.txt — measured 0 → 8 of 8 AI user-agents allowed and 0 → 2,868 bytes of llms.txt, reproducible offline.
+- [Chunk-friendly structure](03-content/chunk-friendly-structure/): how many chunks survive a fixed-size splitter (chunk_size = 800) as self-contained units — measured 0 of 5 → 5 of 5 self-contained chunks, reproducible offline.
+- [Entity clarity with sameAs](05-authority/entity-clarity-sameas/): how many named entities resolve to exactly one canonical Wikidata ID — measured 0 → 5 of 5 entities resolved, reproducible offline.
+- [Citation anchoring](06-measurement/citation-anchoring/): how many claims carry an inline, linkable source a parser can lift as a claim→source pair — measured 0 → 8 of 8 claim→source pairs, reproducible offline.
 
 ## Meta
 - [README](README.md): how recipes are structured (before / after / measurement / reproduce).
