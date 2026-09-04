@@ -74,7 +74,7 @@ Part of the **ferinazumaDEV** GEO ecosystem:
 
 - **[The GEO Handbook](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook)** — the open reference (theory).
 - **The GEO Cookbook** — reproducible examples (practice, this repo).
-- Hub & writing: **[zentimes.es](https://zentimes.es)**
+- Hub & writing: **[zentimes.es](https://zentimes.es)** — see *[Measured, Not Claimed](https://zentimes.es/experiments/)*, a write-up of these six measurements with what each one does **not** prove.
 
 By **[ferinazumaDEV](https://github.com/ferinazumaDEV)**.
 <!-- ecosystem:end -->
