@@ -8,6 +8,10 @@ state of the corpus: which recipes exist, what they measure, and with which numb
 
 Every figure in a release is reproducible offline from the tag it belongs to.
 
+> Version headings are plain text on purpose: a changelog that links its own tag
+> cannot pass a link check before that tag exists. Compare views are one click away
+> from the [releases page](https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook/releases).
+
 ## [Unreleased]
 
 ## [0.1.0] — 2026-09-04
@@ -48,6 +52,3 @@ on the cited sources within a single day ([arXiv:2604.07585](https://arxiv.org/a
 so a lift measured with few runs sits inside the noise. That link — from a measured
 property to an actual citation — is an open research question, and this repository
 does not claim it.
-
-[Unreleased]: https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook/releases/tag/v0.1.0
