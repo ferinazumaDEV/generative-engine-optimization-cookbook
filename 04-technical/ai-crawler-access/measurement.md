@@ -15,7 +15,7 @@
 
 Both variants describe the **same site**; only the crawler policy differs.
 
-**Canonical AI user-agents tested (N = 8):** GPTBot, ClaudeBot, anthropic-ai,
+**robots.txt user-agent tokens tested (N = 8):** GPTBot, ClaudeBot, anthropic-ai,
 PerplexityBot, Google-Extended, CCBot, Applebot-Extended, Bytespider.
 
 **Command:** `bash reproduce.sh` (deterministic, offline — no network, no
@@ -63,3 +63,4 @@ simplified model, not a byte-for-byte reimplementation of every engine's parser.
   only with the standard precedence rules — real engines differ in edge cases.
 - **Sample size.** One before/after site pair; N = 8 user-agents for the access
   proxy. The point is the mechanism, not a population estimate.
+- **The tested set is a fixed 2026-09 snapshot.** `anthropic-ai` is absent from Anthropic's current documentation (checked 2026-09-04); the 8-of-8 figure is a property of this robots.txt pair, not a current census of operator agents.
