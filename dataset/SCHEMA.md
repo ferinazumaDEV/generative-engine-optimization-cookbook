@@ -58,7 +58,7 @@ the same order.
 - **`ssr-vs-csr-rendering` has `sample_size`, `sample_unit` and `confidence` set to
   `null`** because its `measurement.md` states none of the three. That gap is left
   visible rather than filled in.
-- **`confidence` vocabulary.** Four of the recipes word it as "moderate", one as
+- **`confidence` vocabulary.** Three of the recipes word it as "moderate", one as
   "low–moderate", and `ai-crawler-access` words it "Medium" in prose; the schema
   records that last one as `moderate` (same rung, one vocabulary). No confidence
   level was raised or lowered.
