@@ -3,6 +3,10 @@
   "schema_version": 1,
   "description": "Before/after values for six deterministic, offline machine-legibility measurements, one per recipe of the GEO Cookbook.",
   "source_repository": "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook",
+  "version": "0.1.1",
+  "doi": "10.5281/zenodo.22299279",
+  "date_modified": "2026-09-04",
+  "author": "Fernando Aporta Franco",
   "schema_documentation": "dataset/SCHEMA.md",
   "regenerate_with": "bash dataset/build.sh",
   "license": {
