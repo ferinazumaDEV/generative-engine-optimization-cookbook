@@ -2,9 +2,27 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22299279.svg)](https://doi.org/10.5281/zenodo.22299279)
 
-**Reproducible, measured examples of the techniques that get your content cited by AI answer engines** — the hands-on companion to **[The GEO Handbook](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook)**. The handbook is the *theory* (what to do and why, with sources); this cookbook is the *practice*: for each technique, a `before/` and an `after/`, a one-command way to reproduce it, and the numbers it moves.
+**Reproducible, measured examples of the techniques that make your content legible to AI answer engines (a precondition for being cited — not a measured citation rate)** — the hands-on companion to **[The GEO Handbook](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook)**. The handbook is the *theory* (what to do and why, with sources); this cookbook is the *practice*: for each technique, a `before/` and an `after/`, a one-command way to reproduce it, and the numbers it moves.
 
 Every example is designed to be **run and verified by you** — most need no network, no browser and no LLM. Where a claim can only be measured, we measure it and date it; where it can't be, we say so.
+
+## GEO ID Card
+
+| Field | Value |
+|---|---|
+| Name | The GEO Cookbook |
+| Author | Fernando Aporta Franco ([ferinazumaDEV](https://github.com/ferinazumaDEV)) |
+| Claims | Six reproducible experiments on the machine legibility of web content for generative answer engines. Each pairs a before/after artifact with a deterministic offline script, and reports the measured property with its proxy, sample size, confidence and limitations. The measurements are machine-legibility proxies only: none of them measures retrieval, reranking, generation or citation by any engine. |
+| Based on | <https://github.com/ferinazumaDEV/generative-engine-optimization-handbook> |
+| Sources | per-recipe `measurement.md`; [arXiv:2604.07585](https://arxiv.org/abs/2604.07585) |
+| Version | 0.1.1 — [release v0.1.1](https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook/releases/tag/v0.1.1), 2026-09-04 |
+| License | CC-BY-4.0 for prose ([LICENSE](LICENSE)); MIT for code samples ([LICENSES/MIT.txt](LICENSES/MIT.txt)) |
+| DOI | [10.5281/zenodo.22299279](https://doi.org/10.5281/zenodo.22299279) (concept DOI — always the latest release) |
+| dateModified | 2026-09-04 |
+| Canonical URL | <https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook> |
+| Maturity | see [CLAIMS.md](CLAIMS.md) |
+
+Machine-readable source of truth: [`about.jsonld`](about.jsonld) · citation metadata: [`CITATION.cff`](CITATION.cff) · the numbers as data: [`dataset/`](dataset/).
 
 ## How each example is built
 
@@ -46,6 +64,8 @@ Each recipe measures a machine-legibility property of a controlled artifact — 
 
 The same numbers are also published as data in [`dataset/`](dataset/) — a CSV and a JSON file with one row per measurement, plus the units, sample sizes, confidence and limitations of each. They are generated from the recipes themselves with `bash dataset/build.sh`, which re-runs every `reproduce.sh --json` and refuses to write anything if a measured value disagrees with its recipe's front-matter. Read [`dataset/README.md`](dataset/README.md) before reusing them: it states what the rows do *not* show.
 
+A write-up of these six measurements, with what each one does **not** prove, is published as *[Measured, Not Claimed](https://zentimes.es/experiments/)*.
+
 ## Start here
 
 New to this? Read the **[handbook](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook)** first for the *why*, then come here to *do it*. Open [`04-technical/ssr-vs-csr-rendering`](04-technical/ssr-vs-csr-rendering/) and run `bash reproduce.sh`.
@@ -56,7 +76,7 @@ New cited technique or a fix? Each example must carry a real, reproducible measu
 
 ## How to cite
 
-Every tagged release is archived on Zenodo with a DOI. Cite the **concept DOI** — it always resolves to the latest release. Each individual release also carries its own version DOI, on its own record page, if you need to pin one exact state of the corpus.
+Every tagged release from v0.1.1 onward is archived on Zenodo with a DOI. Cite the **concept DOI** — it always resolves to the latest release. Each individual release also carries its own version DOI, on its own record page, if you need to pin one exact state of the corpus.
 
 ```
 Aporta Franco, Fernando (2026). The GEO Cookbook. Zenodo. https://doi.org/10.5281/zenodo.22299279
@@ -70,11 +90,20 @@ Copyright (C) 2026 Fernando Aporta Franco. Code samples are **MIT** — see [`LI
 
 ---
 <!-- ecosystem:start -->
-Part of the **ferinazumaDEV** GEO ecosystem:
+Part of a cluster of open work on making content legible to machines, by **Fernando Aporta Franco** ([ferinazumaDEV](https://github.com/ferinazumaDEV)):
 
-- **[The GEO Handbook](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook)** — the open reference (theory).
-- **The GEO Cookbook** — reproducible examples (practice, this repo).
-- Hub & writing: **[zentimes.es](https://zentimes.es)** — see *[Measured, Not Claimed](https://zentimes.es/experiments/)*, a write-up of these six measurements with what each one does **not** prove.
+**Three layers on GEO (Generative Engine Optimization)**
+- **[The GEO Handbook](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook)** — the reference: what to do and why, with sources (theory).
+- **[The GEO Cookbook](https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook)** — six reproducible before/after recipes with offline measurements (practice).
+- **[Evidence-Based Prompt Engineering](https://github.com/ferinazumaDEV/prompt-engineering-evidence)** — a graded, sourced ledger of prompting techniques (the input side).
 
-By **[ferinazumaDEV](https://github.com/ferinazumaDEV)**.
+**Small open tools**
+- [typedout](https://github.com/ferinazumaDEV/typedout) — reliable structured output from OpenAI and Anthropic, with a provider interface for others.
+- [politeclient](https://github.com/ferinazumaDEV/politeclient) — a polite HTTP client for Python: retries with backoff, per-host rate limiting, caching, pagination.
+- [webhook-replay](https://github.com/ferinazumaDEV/webhook-replay) — capture a webhook once, then replay it at your local app as many times as you need.
+- [scaffld](https://github.com/ferinazumaDEV/scaffld) — scaffold fully-wired Python projects from templates, with a TUI.
+- [framesig](https://github.com/ferinazumaDEV/framesig) — find on-screen events in video by pixel signature; no ML.
+- [notebooklm-kb-system](https://github.com/ferinazumaDEV/notebooklm-kb-system) — a token-efficient second brain for AI agents on top of NotebookLM.
+
+Hub and writing: **[zentimes.es](https://zentimes.es)**.
 <!-- ecosystem:end -->

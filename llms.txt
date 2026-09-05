@@ -1,6 +1,6 @@
 # The GEO Cookbook
 
-> Runnable before/after demos of Generative Engine Optimization techniques. Each recipe measures a real, reproducible effect offline (no LLM, no network) so you can verify the claim yourself. Companion to the GEO Handbook. Maintained by ferinazumaDEV.
+> Six reproducible experiments on the machine legibility of web content for generative answer engines. Each pairs a before/after artifact with a deterministic offline script, and reports the measured property with its proxy, sample size, confidence and limitations. Every number is an offline machine-legibility proxy; none measures retrieval, reranking, generation or citation by any engine. Companion to the GEO Handbook. By Fernando Aporta Franco (ferinazumaDEV). Version 0.1.1 · 2026-09-04 · CC BY 4.0 prose, MIT code.
 
 ## Recipes
 - [SSR vs CSR rendering](04-technical/ssr-vs-csr-rendering/): what an AI crawler sees with and without JavaScript — measured 6 → 152 visible words (~25×), reproducible offline.
@@ -11,9 +11,14 @@
 - [Citation anchoring](06-measurement/citation-anchoring/): how many claims carry an inline, linkable source a parser can lift as a claim→source pair — measured 0 → 8 of 8 claim→source pairs, reproducible offline.
 
 ## Meta
-- [Archived releases (Zenodo)](https://doi.org/10.5281/zenodo.22299279): every tagged release archived with a DOI; this concept DOI always resolves to the latest one. Cite this rather than the repository URL.
+- [Archived releases (Zenodo)](https://doi.org/10.5281/zenodo.22299279): every tagged release from v0.1.1 onward archived with a DOI; this concept DOI always resolves to the latest one. Cite this rather than the repository URL.
+- [Changelog](CHANGELOG.md): versioned history of the recipes and the dataset.
+- [About (machine-readable)](about.jsonld): schema.org JSON-LD — source of truth for name, author, version, DOI, dateModified, maturity.
+- [How to cite](CITATION.cff): Aporta Franco, Fernando. The GEO Cookbook, v0.1.1 (2026-09-04). DOI 10.5281/zenodo.22299279.
+- [Claims and maturity](CLAIMS.md): what each recipe measures (reproducible) and what it does not (engine effect: experimental).
+- Maturity: not yet set in about.jsonld — see CLAIMS.md.
 - [README](README.md): how recipes are structured (before / after / measurement / reproduce).
-- [Ecosystem](ECOSYSTEM.md): how this fits the ferinazumaDEV GEO cluster.
+- [Ecosystem](ECOSYSTEM.md): how this fits the GEO cluster by Fernando Aporta Franco.
 - [Offline measurements dataset](dataset/README.md): the six recipes' before/after numbers as CSV and JSON, with units, sample sizes and limitations; regenerated from the recipes with one command.
 
 ## Related

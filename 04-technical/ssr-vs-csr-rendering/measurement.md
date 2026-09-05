@@ -21,4 +21,4 @@
 
 - **Does show:** the *mechanical visibility* of your content to a crawler that does not execute JavaScript — a necessary condition for being quoted.
 - **Does not show:** whether a given engine ultimately cites you (that depends on authority, relevance and the engine's ranking). This example isolates one link in the chain: if the content is not in the HTML, nothing downstream can happen.
-- **Caveat:** some crawlers render some JavaScript some of the time, and this behavior changes. Treat "does not execute JS" as the safe assumption, not a universal law — see the handbook chapter for current, sourced engine behavior.
+- **Caveat:** some crawlers render some JavaScript some of the time, and this behavior changes. Treat "does not execute JS" as the safe assumption, not a universal law — see [handbook, Chapter 04 — the JavaScript problem](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook/blob/main/docs/04-technical.md#rendering-and-crawlability-the-javascript-problem) for current, sourced engine behavior.

@@ -37,9 +37,28 @@ for recipe in "${RECIPES[@]}"; do
 done
 
 python3 - "$WORK" "$DATASET_DIR" "${RECIPES[@]}" <<'PY'
-import csv, json, sys, os
+import csv, json, sys, os, re
 
 work, dataset_dir, *recipes = sys.argv[1:]
+
+# --- Citation scalars ---------------------------------------------------------
+# version, date-released and doi are read from CITATION.cff with a targeted
+# regex on those three scalar lines only (the abstract and the identifiers
+# list are nested YAML and are deliberately not parsed). CITATION.cff bumps
+# version and date-released together with every git tag, so the dataset carries
+# the same version, date and DOI as the release it belongs to. The build fails
+# if any of the three is missing rather than emitting a dataset nobody can cite.
+CITATION = {}
+with open("CITATION.cff", encoding="utf-8") as fh:
+    for line in fh:
+        m = re.match(r'^(version|date-released|doi):\s*"?([^"#]+?)"?\s*$', line)
+        if m:
+            CITATION[m.group(1)] = m.group(2)
+_missing = [k for k in ("version", "date-released", "doi") if k not in CITATION]
+if _missing:
+    sys.stderr.write(f"CITATION.cff is missing {_missing}; nothing was written.\n")
+    sys.exit(1)
+AUTHOR = "Fernando Aporta Franco"
 
 # --- Minimal YAML reader ------------------------------------------------------
 # meta.yml is deliberately FLAT (scalars and one-line lists only) so it can be
@@ -214,6 +233,10 @@ document = {
         "measurements, one per recipe of the GEO Cookbook."
     ),
     "source_repository": "https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook",
+    "version": CITATION["version"],
+    "doi": CITATION["doi"],
+    "date_modified": CITATION["date-released"],
+    "author": AUTHOR,
     "schema_documentation": "dataset/SCHEMA.md",
     "regenerate_with": "bash dataset/build.sh",
     "license": {"data": "CC-BY-4.0", "code": "MIT"},

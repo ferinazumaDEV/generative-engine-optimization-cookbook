@@ -67,8 +67,9 @@ bash dataset/build.sh
 That is the whole procedure. It runs each recipe's `reproduce.sh --json`, checks
 every value against that recipe's `meta.yml`, and rewrites the CSV and the JSON.
 
-- **No network, no browser, no model, no third-party packages** — bash and the
-  Python 3 standard library only, the same as every recipe.
+- **No network, no browser, no model, no third-party packages** — bash, the
+  Python 3 standard library and, for ssr-vs-csr-rendering, perl — nothing outside
+  a default Linux/macOS install.
 - **Deterministic.** There are no timestamps in the output, so rebuilding an
   unchanged tree produces byte-identical files and a stale dataset shows up as a
   `git diff`.
@@ -98,6 +99,6 @@ Citation metadata for the repository lives in [`CITATION.cff`](../CITATION.cff).
 Plain text:
 
 ```
-Aporta Franco, Fernando (2026). The GEO Cookbook — GEO offline measurements dataset.
-https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook (hub: https://zentimes.es)
+Aporta Franco, Fernando (2026). The GEO Cookbook — GEO offline measurements dataset. Zenodo.
+https://doi.org/10.5281/zenodo.22299279 (code: https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook)
 ```

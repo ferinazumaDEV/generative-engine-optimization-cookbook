@@ -1,6 +1,6 @@
 # AI crawler access — let the answer engines in, then hand them a clean feed
 
-**If your robots.txt blocks the AI crawlers, your site cannot be cited by an answer engine — full stop.** GPTBot, ClaudeBot, PerplexityBot, Google-Extended and friends identify themselves by user-agent; a `Disallow: /` for those agents removes you from the pool of sources an engine is even allowed to fetch. The fix is two files: a robots.txt that *allows* those user-agents, and an `llms.txt` — a curated, plain-text index of your best content, written to be lifted straight into an answer.
+**If your robots.txt blocks the AI crawlers, your site cannot be cited by an answer engine — full stop.** GPTBot, ClaudeBot, PerplexityBot, Google-Extended and friends identify themselves by user-agent (Google-Extended is the exception: per Google's crawler list it has no separate request user-agent string and works only as a robots.txt control token — https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers; Apple describes Applebot-Extended as a secondary user agent used to control data usage while Applebot does the crawling — https://support.apple.com/en-us/119829); a `Disallow: /` for those agents removes you from the pool of sources an engine is even allowed to fetch. The fix is two files: a robots.txt that *allows* those user-agents, and an `llms.txt` — a curated, plain-text index of your best content, written to be lifted straight into an answer.
 
 > In this example the **before** site allows **0 of 8** known AI crawlers and publishes **0 bytes** of curated content; the **after** site allows **all 8** and exposes **2868 bytes** of clean, machine-readable content. Measured, dated and reproducible below.
 
@@ -52,7 +52,7 @@ Access is a *gate*, not a multiplier — a blocked or empty site cannot be quote
 ## FAQ
 
 **Do I have to name every AI bot?**
-You control access per user-agent. Some operators publish more than one (e.g. `anthropic-ai` and `ClaudeBot`). This example tests a canonical set of 8; keep your list current from each operator's docs.
+You control access per user-agent. Some operators publish more than one (Anthropic documents `ClaudeBot`, `Claude-User` and `Claude-SearchBot` — [source](https://support.anthropic.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler); `anthropic-ai`, still common in 2023-era robots.txt files, is not in that list). This example tests a canonical set of 8; keep your list current from each operator's docs.
 
 **Is `llms.txt` a standard crawlers obey today?**
 It is an emerging convention ([llmstxt.org](https://llmstxt.org)), not a universally enforced spec. It costs almost nothing to publish and gives engines a clean extraction target; adoption is uneven and shifting — treat it as a low-cost bet, not a guarantee.

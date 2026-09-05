@@ -94,7 +94,11 @@ disagree, the build fails and writes nothing** — so a number can never reach t
 dataset without a script that produced it.
 
 `geo-offline-measurements.json` holds the metadata, one `recipes[]` entry per recipe
-(including the per-variant rows) and a flat `measurements[]` array. The CSV is that
+(including the per-variant rows) and a flat `measurements[]` array. The metadata
+carries `version`, `doi` and `date_modified`, read by `build.sh` from the
+`version`, `doi` and `date-released` lines of [`CITATION.cff`](../CITATION.cff)
+(which are bumped together with every git tag), and `author`, so the JSON can be
+cited and dated on its own; they must agree with `about.jsonld`. The CSV is that
 same flat array, one row per measurement:
 
 | Column | Notes |

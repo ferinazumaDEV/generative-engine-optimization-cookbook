@@ -1,6 +1,6 @@
 # Chunk-friendly structure — write pages a retriever can slice cleanly
 
-**Answer engines do not read your page whole. They split it into fixed-size chunks and embed each one on its own.** A chunk that begins in the middle of a sentence and ends in the middle of another is a bad retrieval unit: out of context it is ambiguous, so it is retrieved and quoted less cleanly. The fix is not more words — it is *structure*. Headings, short sections and lists give the splitter natural seams to cut on, so every chunk lands as a complete, self-contained idea.
+**Retrieval pipelines typically do not read a page whole: they split it into fixed-size chunks and embed each one — see [handbook, Chapter 03](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook/blob/main/docs/03-content.md), which grades this as consensus + mechanism; how each commercial engine chunks is not public (needs-verification).** A chunk that begins in the middle of a sentence and ends in the middle of another is a bad retrieval unit: out of context it is ambiguous, so it is retrieved and quoted less cleanly. The fix is not more words — it is *structure*. Headings, short sections and lists give the splitter natural seams to cut on, so every chunk lands as a complete, self-contained idea.
 
 > In this example the exact same prose, poured into one wall of text, yields **0 of 5** self-contained chunks. Restructured with headings and lists it yields **5 of 5 (100%)** — *same sentences*, cut on clean seams. Measured, dated and reproducible below.
 
@@ -61,5 +61,5 @@ It overlaps with it, but the stakes differ: here the unit of consumption is a ch
 
 ---
 <!-- ecosystem:start -->
-Part of the **[GEO Cookbook](https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook)** — reproducible examples for **[The GEO Handbook](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook)**. Hub: **[zentimes.es](https://zentimes.es)**. By **[ferinazumaDEV](https://github.com/ferinazumaDEV)**.
+Part of the **[GEO Cookbook](https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook)** — reproducible examples for **[The GEO Handbook](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook)**. Theory: **[Chapter 03 — Content](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook/blob/main/docs/03-content.md)**. Hub: **[zentimes.es](https://zentimes.es)**. By **[ferinazumaDEV](https://github.com/ferinazumaDEV)**.
 <!-- ecosystem:end -->
