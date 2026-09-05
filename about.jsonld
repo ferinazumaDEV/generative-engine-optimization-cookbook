@@ -39,7 +39,11 @@
         { "@type": "Article", "name": "Measured, Not Claimed", "url": "https://zentimes.es/experiments/" }
       ],
       "identifier": "https://doi.org/10.5281/zenodo.22299279",
-      "sameAs": ["https://doi.org/10.5281/zenodo.22299279"]
+      "sameAs": ["https://doi.org/10.5281/zenodo.22299279"],
+      "additionalProperty": [
+        { "@type": "PropertyValue", "name": "maturity", "value": "experimental" },
+        { "@type": "PropertyValue", "name": "reproducible", "value": "yes" }
+      ]
     }
   ]
 }

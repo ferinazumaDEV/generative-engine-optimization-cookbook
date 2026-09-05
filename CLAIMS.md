@@ -50,7 +50,7 @@ This file states, per recipe, which claim is measured, which is not, and how to 
 
 ## Work-level maturity
 
-`about.jsonld` does not yet carry `additionalProperty`; the values proposed for the owner to set there are `maturity: experimental` and `reproducible: yes`: everything here re-runs offline, and none of it shows an engine citing a page more often.
+`about.jsonld` carries `maturity: experimental` and `reproducible: yes`, set on 5 September 2026: everything here re-runs offline, and none of it shows an engine citing a page more often.
 
 ## Changing a grade
 
