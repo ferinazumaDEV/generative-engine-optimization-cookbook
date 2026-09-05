@@ -20,7 +20,7 @@ Every example is designed to be **run and verified by you** — most need no net
 | DOI | [10.5281/zenodo.22299279](https://doi.org/10.5281/zenodo.22299279) (concept DOI — always the latest release) |
 | dateModified | 2026-09-04 |
 | Canonical URL | <https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook> |
-| Maturity | see [CLAIMS.md](CLAIMS.md) |
+| Maturity | `experimental` · reproducible: `yes` — see [CLAIMS.md](CLAIMS.md) |
 
 Machine-readable source of truth: [`about.jsonld`](about.jsonld) · citation metadata: [`CITATION.cff`](CITATION.cff) · the numbers as data: [`dataset/`](dataset/).
 
