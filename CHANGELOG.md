@@ -11,6 +11,12 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 > Version headings are plain text on purpose: a changelog that links its own tag
 > cannot pass a link check before that tag exists. Compare views are one click away
 > from the [releases page](https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook/releases).
+>
+> The README's version row follows the same rule, and for the same reason: it links
+> the releases page rather than `releases/tag/vX.Y.Z`. Linking the exact tag makes
+> every release a chicken-and-egg — the link check fails on the pull request because
+> the tag is created after the merge. It failed exactly that way on v0.1.2 before the
+> row was changed.
 
 ## [Unreleased]
 
