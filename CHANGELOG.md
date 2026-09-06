@@ -11,10 +11,32 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 > Version headings are plain text on purpose: a changelog that links its own tag
 > cannot pass a link check before that tag exists. Compare views are one click away
 > from the [releases page](https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook/releases).
+>
+> The README's version row follows the same rule, and for the same reason: it links
+> the releases page rather than `releases/tag/vX.Y.Z`. Linking the exact tag makes
+> every release a chicken-and-egg — the link check fails on the pull request because
+> the tag is created after the merge. It failed exactly that way on v0.1.2 before the
+> row was changed.
 
 ## [Unreleased]
 
+## [0.1.2] — 2026-09-06
+
+The archived copy had fallen behind. `v0.1.1` was tagged on 4 September and seven
+commits landed after it, including every piece of citation metadata — so the
+Zenodo deposit people were citing did not contain the DOI, the maturity
+declaration or the identity links it describes. This release closes that gap.
+
 ### Added
+
+- **The dataset is now verified on every push and pull request.** The build is
+  run, the result is diffed against what is committed, and it is run a second
+  time to check it is deterministic. A new `dataset/validate.py` checks the
+  published artifacts themselves: JSON structure against `SCHEMA.md`, the CSV
+  carrying the same records field by field, derived columns recomputed from the
+  measured values, citation scalars agreeing with `CITATION.cff`, and the
+  "what this does not show" disclaimer still present. Until now CI checked that
+  the links resolved but not that the measurements did.
 
 - **DOI.** `v0.1.1` is archived on Zenodo, so the cookbook is now citable by a
   persistent identifier instead of a repository URL. The concept DOI
