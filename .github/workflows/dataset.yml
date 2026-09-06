@@ -1,0 +1,69 @@
+name: dataset
+
+# This cookbook's whole claim is that its numbers are reproducible: clone it,
+# run one command, get the same dataset. Until now nothing checked that. The
+# only workflow here was a link checker — it verified that the URLs resolve,
+# not that the measurements do.
+#
+# So this runs the build the README tells a reader to run, and then asks the
+# question that matters: did it produce exactly the files that are committed?
+# A dataset that cannot be regenerated is a claim, not evidence.
+#
+# Note there is no dependency-installation step and that is deliberate: the
+# build and the validator are bash and the Python standard library, nothing
+# else. If a `pip install` ever becomes necessary here, the cookbook has lost a
+# property it advertises, and the missing step will say so loudly.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Rebuild the dataset from the recipes
+        # build.sh runs every recipe's own reproduce.sh --json and cross-checks
+        # each number against that recipe's meta.yml, failing rather than
+        # publishing a value nobody measured.
+        run: bash dataset/build.sh
+
+      - name: The committed dataset is exactly what the recipes produce
+        # The point of the whole job. If this fails, either a recipe changed
+        # without the dataset being rebuilt, or the dataset was edited by hand.
+        run: |
+          if ! git diff --exit-code -- dataset/; then
+            echo
+            echo "The rebuilt dataset differs from the committed one."
+            echo "Run 'bash dataset/build.sh' and commit the result;"
+            echo "never edit the dataset files directly."
+            exit 1
+          fi
+          echo "byte-identical to what is committed"
+
+      - name: Validate the artifacts themselves
+        # Checks the files a third party actually downloads: JSON structure
+        # against SCHEMA.md, CSV carrying the same records field by field,
+        # derived columns genuinely derived, citation scalars matching
+        # CITATION.cff, and the "what this does not show" disclaimer intact.
+        run: python3 dataset/validate.py
+
+      - name: The build stays reproducible on a second run
+        # Determinism is claimed in build.sh's own header. Running it twice and
+        # diffing is how that claim gets tested rather than asserted.
+        run: |
+          bash dataset/build.sh
+          git diff --exit-code -- dataset/
+          echo "second run produced identical files"

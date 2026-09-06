@@ -7,6 +7,9 @@ per recipe of this cookbook, published as data instead of only as prose.
 - [`geo-offline-measurements.json`](geo-offline-measurements.json) — the same rows plus per-variant detail and metadata.
 - [`SCHEMA.md`](SCHEMA.md) — what every field means, including which ones are measured and which are derived.
 - [`build.sh`](build.sh) — regenerates both files from the recipes.
+- [`validate.py`](validate.py) — checks the two files against each other and
+  against `SCHEMA.md`. `build.sh` guarantees the numbers came from the recipes;
+  this guarantees the published artifacts still say the same thing.
 
 ## What this is *not*
 
@@ -66,6 +69,17 @@ bash dataset/build.sh
 
 That is the whole procedure. It runs each recipe's `reproduce.sh --json`, checks
 every value against that recipe's `meta.yml`, and rewrites the CSV and the JSON.
+
+To check the result without rebuilding it:
+
+```bash
+python3 dataset/validate.py
+```
+
+Both run on every push and pull request ([`dataset.yml`](../.github/workflows/dataset.yml)),
+which also rebuilds and diffs against what is committed — so a dataset that has
+drifted from the recipes, or been edited by hand, fails the build rather than
+being published quietly.
 
 - **No network, no browser, no model, no third-party packages** — bash, the
   Python 3 standard library and, for ssr-vs-csr-rendering, perl — nothing outside
