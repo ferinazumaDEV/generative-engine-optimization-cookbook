@@ -22,8 +22,8 @@
       "about": "Generative Engine Optimization",
       "author": { "@id": "https://zentimes.es/#ferinazumaDEV" },
       "creator": { "@id": "https://zentimes.es/#ferinazumaDEV" },
-      "version": "0.1.1",
-      "dateModified": "2026-09-04",
+      "version": "0.1.2",
+      "dateModified": "2026-09-06",
       "license": [
         "https://creativecommons.org/licenses/by/4.0/",
         "https://opensource.org/licenses/MIT"
