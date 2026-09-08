@@ -1,5 +1,7 @@
 # The GEO Cookbook
 
+[English](README.md) · **Español**: [README.es.md](README.es.md)
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22299279.svg)](https://doi.org/10.5281/zenodo.22299279)
 
 **Reproducible, measured examples of the techniques that make your content legible to AI answer engines (a precondition for being cited — not a measured citation rate)** — the hands-on companion to **[The GEO Handbook](https://github.com/ferinazumaDEV/generative-engine-optimization-handbook)**. The handbook is the *theory* (what to do and why, with sources); this cookbook is the *practice*: for each technique, a `before/` and an `after/`, a one-command way to reproduce it, and the numbers it moves.
