@@ -1,13 +1,15 @@
 # Machine-readable front-matter. Schema: ../../dataset/SCHEMA.md (schema_version 1).
 # Every recipe carries the same keys in the same order; a key with no real
 # measured value is null, never estimated.
-schema_version: 1
+schema_version: 2
 technique: chunk-friendly-structure
 title: "Chunk-friendly structure: write pages a retriever can slice cleanly"
 chapter: 03-content
 handbook_section: docs/03-content.md
 status: published
 method: deterministic-offline
+evidence_class: geo-precondition
+evidence_note: "A fixed-size splitter is a stand-in: a real retriever's chunking is unknown, so this shows the text can be sliced cleanly, not that any engine slices it this way."
 requires_llm: false
 requires_network: false
 tool: "python3 stdlib (recursive character text splitter)"

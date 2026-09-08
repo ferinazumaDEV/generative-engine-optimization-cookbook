@@ -1,13 +1,15 @@
 # Machine-readable front-matter. Schema: ../../dataset/SCHEMA.md (schema_version 1).
 # Every recipe carries the same keys in the same order; a key with no real
 # measured value is null, never estimated.
-schema_version: 1
+schema_version: 2
 technique: citation-anchoring
 title: "Citation anchoring: put a linkable source next to every claim"
 chapter: 06-measurement
 handbook_section: docs/06-measurement.md
 status: published
 method: deterministic-offline
+evidence_class: geo-precondition
+evidence_note: "A parser extracts these claim-source pairs, but parseable is not the same as cited, and citation is not measured here."
 requires_llm: false
 requires_network: false
 tool: "python3 stdlib (re) via bash"
