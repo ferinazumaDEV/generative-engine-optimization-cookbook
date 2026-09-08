@@ -44,7 +44,7 @@ CSV_COLUMNS = [
     "technique", "chapter", "recipe_path", "handbook_section", "title",
     "metric_id", "metric_role", "metric", "unit",
     "before_value", "after_value", "absolute_change", "ratio_after_over_before",
-    "method", "requires_llm", "requires_network", "engines", "tool",
+    "method", "evidence_class", "requires_llm", "requires_network", "engines", "tool",
     "sample_size", "sample_unit", "confidence",
     "measured_date", "last_verified", "limitations",
 ]
@@ -77,7 +77,7 @@ def main() -> int:
           f"JSON top-level keys differ from the schema: "
           f"missing {sorted(TOP_LEVEL_KEYS - set(doc))}, "
           f"unexpected {sorted(set(doc) - TOP_LEVEL_KEYS)}")
-    check(doc.get("schema_version") == 1,
+    check(doc.get("schema_version") == 2,
           f"unsupported schema_version {doc.get('schema_version')!r}")
 
     recipes = doc.get("recipes", [])
@@ -160,6 +160,17 @@ def main() -> int:
             check(row[column] == expected,
                   f"CSV line {i} ({key[0]}/{key[1]}): {column} is {row[column]!r} "
                   f"but the JSON says {expected!r}")
+
+    # -- evidence_class is a closed vocabulary ----------------------------- #
+    # Overclaiming would look exactly like a typo here, so the artifacts are checked
+    # too and not only the build inputs.
+    VALID = {"technical-seo", "aeo", "geo-precondition"}
+    for r in recipes:
+        if r.get("evidence_class") not in VALID:
+            problems.append(f"{r.get('recipe_path')}: evidence_class "
+                            f"{r.get('evidence_class')!r} is outside {sorted(VALID)}")
+        if not r.get("evidence_note"):
+            problems.append(f"{r.get('recipe_path')}: evidence_class carries no note")
 
     # -- the disclaimer is present and not empty --------------------------- #
     # This dataset's honesty depends on it: every number is an offline proxy and

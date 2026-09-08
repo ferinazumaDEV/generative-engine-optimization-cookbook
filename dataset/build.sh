@@ -92,7 +92,8 @@ def read_meta(path):
 
 REQUIRED_KEYS = [
     "schema_version", "technique", "title", "chapter", "handbook_section",
-    "status", "method", "requires_llm", "requires_network", "tool", "engines",
+    "status", "method", "evidence_class", "evidence_note",
+    "requires_llm", "requires_network", "tool", "engines",
     "metric", "unit", "before_value", "after_value",
     "secondary_metric", "secondary_unit", "secondary_before_value",
     "secondary_after_value", "secondary_role",
@@ -118,8 +119,20 @@ for recipe in recipes:
     check(not missing, f"{recipe}: meta.yml is missing keys {missing}")
     extra = [k for k in meta if k not in REQUIRED_KEYS]
     check(not extra, f"{recipe}: meta.yml has keys outside the schema {extra}")
-    check(meta.get("schema_version") == 1,
+    check(meta.get("schema_version") == 2,
           f"{recipe}: unsupported schema_version {meta.get('schema_version')!r}")
+
+    # evidence_class says WHICH DISCIPLINE this number already finishes. It is not a
+    # confidence rating: every measurement here is direct and deterministic. What it
+    # separates is whether the measured property IS the deliverable, or only a
+    # precondition for an outcome nobody has measured. Getting this wrong in the
+    # permissive direction is how a portfolio starts overclaiming, so it is a closed
+    # vocabulary and the build fails on anything else.
+    check(meta.get("evidence_class") in ("technical-seo", "aeo", "geo-precondition"),
+          f"{recipe}: evidence_class must be technical-seo, aeo or geo-precondition, "
+          f"got {meta.get('evidence_class')!r}")
+    check(bool(meta.get("evidence_note")),
+          f"{recipe}: evidence_class needs an evidence_note saying why")
 
     # The recipe's own --json must agree with its front-matter, field by field.
     for key in ("technique", "chapter", "handbook_section", "title",
@@ -182,6 +195,7 @@ for recipe in recipes:
             "sample_size": meta["sample_size"],
             "sample_unit": meta["sample_unit"],
             "confidence": meta["confidence"],
+            "evidence_class": meta["evidence_class"],
             "measured_date": meta["measured_date"],
             "last_verified": meta["last_verified"],
             "limitations": meta["limitations"],
@@ -196,6 +210,8 @@ for recipe in recipes:
         "handbook_section": meta["handbook_section"],
         "status": meta["status"],
         "method": meta["method"],
+        "evidence_class": meta["evidence_class"],
+        "evidence_note": meta["evidence_note"],
         "requires_llm": meta["requires_llm"],
         "requires_network": meta["requires_network"],
         "tool": meta["tool"],
@@ -219,15 +235,23 @@ if problems:
     sys.exit(1)
 
 DISCLAIMER = (
-    "Every value here is an offline, deterministic proxy for machine legibility "
-    "measured on a controlled before/after artifact. None of them measures "
+    "Every value here is measured directly and deterministically on a controlled "
+    "before/after artifact: nothing is estimated. What differs between rows is what "
+    "the number already finishes. Where evidence_class is 'technical-seo' or 'aeo', "
+    "the measured property IS the deliverable - a fetch-only crawler really does read "
+    "that many words, a schema.org parser really does extract those typed facts, a "
+    "robots.txt really does admit those user-agents - and anyone can reproduce it with "
+    "curl. Where evidence_class is 'geo-precondition', the measurement is equally "
+    "direct but stands one step short: it shows the artifact is ready to be retrieved, "
+    "resolved or cited, not that it is. "
+    "That last step is not measured here for ANY row. None of these values measures "
     "retrieval, reranking, generation or citation by any answer engine, and none "
-    "of them establishes that any engine cites the 'after' variant more often."
+    "establishes that any engine cites the 'after' variant more often."
 )
 
 document = {
     "dataset": "GEO offline measurements",
-    "schema_version": 1,
+    "schema_version": 2,
     "description": (
         "Before/after values for six deterministic, offline machine-legibility "
         "measurements, one per recipe of the GEO Cookbook."
@@ -259,7 +283,7 @@ CSV_COLUMNS = [
     "technique", "chapter", "recipe_path", "handbook_section", "title",
     "metric_id", "metric_role", "metric", "unit",
     "before_value", "after_value", "absolute_change", "ratio_after_over_before",
-    "method", "requires_llm", "requires_network", "engines", "tool",
+    "method", "evidence_class", "requires_llm", "requires_network", "engines", "tool",
     "sample_size", "sample_unit", "confidence",
     "measured_date", "last_verified", "limitations",
 ]

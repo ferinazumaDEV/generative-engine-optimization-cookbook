@@ -15,7 +15,15 @@ per recipe of this cookbook, published as data instead of only as prose.
 
 Read this before using the numbers.
 
-**These are proxies for machine legibility. They do not measure citation.** Every
+**None of these measures citation.** That holds for every row and is the first thing
+to know.
+
+But they are not all the same kind of evidence, and `schema_version: 2` says which is
+which through [`evidence_class`](SCHEMA.md#evidence_class--what-the-number-already-finishes):
+three rows measure a property that **is** the outcome of technical SEO or AEO — a
+fetch-only crawler really reads that many words, a parser really extracts those facts
+— and three measure readiness for something no one here has observed. All six are
+measured directly; what differs is where the finish line sits. Every
 value answers a mechanical question about a file — how many words survive tag
 stripping, how many typed facts a JSON-LD parser reads, how many chunks come out of
 a splitter intact, how many user-agents a `robots.txt` admits, how many names carry

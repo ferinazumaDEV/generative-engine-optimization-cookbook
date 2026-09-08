@@ -1,13 +1,15 @@
 # Machine-readable front-matter. Schema: ../../dataset/SCHEMA.md (schema_version 1).
 # Every recipe carries the same keys in the same order; a key with no real
 # measured value is null, never estimated.
-schema_version: 1
+schema_version: 2
 technique: entity-clarity-sameas
 title: "Entity clarity: disambiguate with sameAs + canonical IDs"
 chapter: 05-authority
 handbook_section: docs/05-authority.md
 status: published
 method: deterministic-offline
+evidence_class: geo-precondition
+evidence_note: "Resolving an entity to one Q-ID is measured directly, but whether that makes an engine cite the brand is not measured here."
 requires_llm: false
 requires_network: false
 tool: "python3 stdlib (json, re, pathlib)"

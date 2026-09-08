@@ -1,13 +1,15 @@
 # Machine-readable front-matter. Schema: ../../dataset/SCHEMA.md (schema_version 1).
 # Every recipe carries the same keys in the same order; a key with no real
 # measured value is null, never estimated.
-schema_version: 1
+schema_version: 2
 technique: ai-crawler-access
 title: "AI crawler access: allow AI crawlers in robots.txt + publish an llms.txt"
 chapter: 04-technical
 handbook_section: docs/04-technical.md
 status: published
 method: deterministic-offline
+evidence_class: technical-seo
+evidence_note: "robots.txt either admits a user-agent or it does not. The measurement is the outcome, verifiable by anyone with curl."
 requires_llm: false
 requires_network: false
 tool: "python3 stdlib + bash"

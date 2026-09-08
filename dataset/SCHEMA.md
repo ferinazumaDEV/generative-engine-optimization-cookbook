@@ -1,6 +1,6 @@
 # Schema — `meta.yml` and the dataset files
 
-`schema_version: 1`
+`schema_version: 2`
 
 Every recipe in this cookbook carries a `meta.yml`. Before this schema existed the
 files drifted: some had `metric`, `before_value` and `sample_size`, others had none
@@ -30,6 +30,8 @@ the same order.
 | `handbook_section` | string | The handbook chapter this recipe demonstrates. |
 | `status` | string | `published` once the recipe carries a real measurement. |
 | `method` | string | How the number was obtained. All six are `deterministic-offline`. |
+| `evidence_class` | string | **What this number already finishes.** One of `technical-seo`, `aeo`, `geo-precondition`. See below. |
+| `evidence_note` | string | One sentence saying *why* it is in that class. Required; the class without the reason is an assertion. |
 | `requires_llm` | boolean | Whether reproducing the measurement needs a model. |
 | `requires_network` | boolean | Whether reproducing the measurement needs the network. |
 | `tool` | string | What actually computes the number. |
@@ -113,3 +115,36 @@ same flat array, one row per measurement:
 | `limitations` | The one-sentence proxy caveat for that recipe. |
 
 An empty cell always means "no value reported", never zero.
+
+
+## `evidence_class` — what the number already finishes
+
+Added in `schema_version: 2`. It is **not** a confidence rating, and it does not
+grade how well anything was measured: every value in this dataset is measured
+directly and deterministically, and nothing is estimated.
+
+What it separates is whether the property measured **is the deliverable**, or only a
+step toward an outcome nobody has observed.
+
+| Value | Meaning | Example |
+|---|---|---|
+| `technical-seo` | The measured property is itself the outcome of technical SEO. A reader can reproduce it with `curl` and the job is done. | A fetch-only crawler reads *n* words of the page. That is not a stand-in for readability — it **is** readability. |
+| `aeo` | Same, for answer surfaces: the measured property is what an answer engine consumes. | A schema.org parser extracts *n* typed facts. Answer boxes consume parsed facts directly. |
+| `geo-precondition` | Measured just as directly, but one step short of the outcome. It shows the artifact is *ready* to be retrieved, resolved or cited — not that it is. | Chunks come out self-contained from a fixed-size splitter. A real retriever's chunking is unknown, so this is readiness, not retrieval. |
+
+**Why this distinction exists.** Before it, all six recipes carried the same caveat —
+"an offline proxy" — and that undersold three of them. Being readable by a fetch-only
+crawler, being parseable by schema.org, and admitting a named crawler in `robots.txt`
+are complete outcomes in their own disciplines; calling them proxies for citation
+buries evidence that is already finished.
+
+**What it does NOT license.** No row, in any class, measures retrieval, reranking,
+generation or citation by an answer engine. `technical-seo` and `aeo` mean the number
+finishes *its own* discipline, never that it demonstrates a generative engine cites
+anything. That claim is not made anywhere in this dataset and would need a different
+kind of study.
+
+**Closed vocabulary, enforced twice.** `build.sh` refuses to write a dataset whose
+`evidence_class` is outside the three values, and `validate.py` refuses to pass the
+published artifacts if one slipped through. Overclaiming here would look exactly like
+a typo, which is why a typo cannot get in.
