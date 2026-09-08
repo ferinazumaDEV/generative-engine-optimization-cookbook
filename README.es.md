@@ -1,3 +1,4 @@
+<!-- synced-from: 278a5bb9f42c287f3ee483c149a0b26c9f47e81c -->
 # The GEO Cookbook
 
 **English**: [README.md](README.md) · [Español](README.es.md)
