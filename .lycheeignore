@@ -1,0 +1,19 @@
+
+# zenodo.org/badge/... — the DOI *badge image*, and only that. Not the DOI.
+#
+# With --timeout 30 the citation links now pass: 217 of 219 links green, and
+# the only failure left is this one SVG, which times out even at 30s from a
+# GitHub runner while returning 200 in 0.7s from a residential connection
+# (verified by hand 2026-09-09). Zenodo renders these badges on demand and the
+# endpoint is slow from datacenter IPs.
+#
+# The distinction that makes this safe: this URL is a decorative image. The DOI
+# it links to — https://doi.org/10.5281/zenodo.* — is a separate link in the
+# same line of the README, it is NOT ignored, and it is checked on every run.
+# If the DOI ever breaks, CI still says so. If the badge endpoint has a bad
+# day, the reader sees a broken image next to a working citation link.
+#
+# Deliberately narrow: the path prefix, not the host. A bare zenodo\.org would
+# also silence the record pages, which is exactly what this repository must
+# keep checking.
+zenodo\.org/badge/

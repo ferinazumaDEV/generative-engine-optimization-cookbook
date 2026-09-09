@@ -2,6 +2,18 @@ name: Link check
 
 # Verifies every link/citation across the handbook still resolves.
 # Runs on changes, on every PR, and weekly to catch link-rot.
+#
+# On timeouts: zenodo.org is CERN-hosted and answers slowly enough from GitHub's
+# runners to trip lychee's 20s default, intermittently -- the same links passed
+# on 2026-09-06 and failed on 2026-09-08/09. Verified alive by hand from a
+# residential connection on 2026-09-09: the DOI resolves 200 in ~2.2s across
+# three consecutive requests, and the badge returns a real SVG in 0.7s.
+#
+# The DOI badge and the "cite this work" links are the most load-bearing links
+# in a repository whose whole point is citability, so they get a longer timeout
+# and a slower retry rather than an entry in .lycheeignore, which would stop
+# checking them altogether. A slower check that still checks beats a fast one
+# that has quietly stopped looking.
 
 on:
   push:
@@ -28,6 +40,8 @@ jobs:
             --no-progress
             --max-concurrency 4
             --max-retries 2
+            --timeout 30
+            --retry-wait-time 5
             --accept 200,201,204,206,403,429
             './**/*.md'
           fail: true
