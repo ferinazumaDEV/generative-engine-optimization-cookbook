@@ -22,7 +22,15 @@ import json, re, sys, pathlib
 
 # Canonical identifier: a Wikidata item URL. This is the strongest machine-checkable
 # anchor; Wikipedia URLs in sameAs corroborate it but a Wikidata Q-ID is the key.
-WIKIDATA = re.compile(r'https?://(?:www\.)?wikidata\.org/(?:wiki|entity)/(Q\d+)')
+# A complete Wikidata entity URL, anchored at both ends. The first version used
+# re.search with a loose pattern, which accepted any string that CONTAINED
+# something Q-ID-shaped: "https://wikidata.org/wiki/Q42-not-an-item" counted as
+# Q42, and so did "https://example.invalid/?next=https://wikidata.org/wiki/Q42",
+# which is not even hosted on Wikidata. Scheme, host and path are all checked
+# now, and the Q-ID must be the whole final segment.
+WIKIDATA = re.compile(
+    r"^https?://(?:www\.)?wikidata\.org/(?:wiki|entity)/(Q[1-9][0-9]*)$"
+)
 
 def jsonld_blocks(html):
     return re.findall(
@@ -53,7 +61,7 @@ def canonical_ids(entity):
     refs.extend([same] if isinstance(same, str) else [s for s in same if isinstance(s, str)])
     ids = set()
     for r in refs:
-        m = WIKIDATA.search(r)
+        m = WIKIDATA.match(r.strip())
         if m:
             ids.add(m.group(1))
     return ids
