@@ -17,13 +17,38 @@ for arg in "$@"; do
 done
 
 python3 - "$@" <<'PY'
-import json, os, sys
+import json, os, re, sys
 
-# Canonical list of answer-engine crawler user-agents we test for.
-AI_AGENTS = [
-    "GPTBot", "ClaudeBot", "anthropic-ai", "PerplexityBot",
-    "Google-Extended", "CCBot", "Applebot-Extended", "Bytespider",
+# The tokens this recipe evaluates, grouped by what they actually control.
+# They are NOT all HTTP crawlers, and the difference matters when reading the
+# number: allowing every one of them is a statement of policy across four
+# different mechanisms, not "eight robots can now fetch the page".
+#
+#   retrieval  a crawler that fetches pages for a search or answer index
+#   training   a crawler that fetches pages to train models
+#   usage      a policy token with NO independent HTTP user-agent; it governs
+#              how already-fetched content may be used
+#   broad      a general web crawler whose corpus is widely reused
+#
+# Sources are each vendor's own documentation, checked 2026-09-12.
+AGENT_ROLES = [
+    ("GPTBot",            "training",  "https://developers.openai.com/api/docs/bots"),
+    ("ClaudeBot",         "training",  "https://support.anthropic.com/en/articles/8896518"),
+    ("anthropic-ai",      "training",  "https://support.anthropic.com/en/articles/8896518"),
+    ("PerplexityBot",     "retrieval", "https://docs.perplexity.ai/guides/bots"),
+    ("Google-Extended",   "usage",     "https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers"),
+    ("CCBot",             "broad",     "https://commoncrawl.org/ccbot"),
+    ("Applebot-Extended", "usage",     "https://support.apple.com/en-us/119829"),
+    ("Bytespider",        "training",  "https://www.bytedance.com/en/"),
 ]
+AI_AGENTS = [name for name, _role, _src in AGENT_ROLES]
+
+# Deliberately NOT added here: OAI-SearchBot, the retrieval counterpart of
+# GPTBot. It belongs in a roster that claims to cover answer engines, but adding
+# it changes the measured value from 8 to 9 and would make this release's number
+# incomparable with the one already published and archived. Changing the roster
+# is a dataset decision -- a new schema_version -- not a bug fix, and it is
+# tracked separately from this correction.
 
 def measure(variant):
     robots_path = os.path.join(variant, "robots.txt")
@@ -53,24 +78,47 @@ def measure(variant):
                     for a in current_agents:
                         groups[a].append((field, value))
 
-    def allowed(agent):
-        """Is `agent` allowed to fetch path '/' ? Most-specific group wins
-        (exact user-agent match, else '*'); within it, the longest matching
-        rule wins and Allow breaks ties, per the robots.txt convention."""
+    def _pattern_matches(pattern, path):
+        """Does an RFC 9309 path pattern match `path`?
+
+        The first version of this compared with str.startswith, which treats the
+        two special characters of the grammar as ordinary text. `Disallow: /*`
+        therefore matched nothing and the measurement reported the path as
+        ALLOWED -- a false positive on a rule that blocks the whole site, which
+        is the single most common way to say "stay out".
+
+        RFC 9309 section 2.2.2 defines exactly two: `*` matches any sequence of
+        characters, and `$` at the end of the pattern anchors the match to the
+        end of the path. Everything else is literal.
+        """
+        anchored = pattern.endswith("$")
+        body = pattern[:-1] if anchored else pattern
+        expr = "".join(".*" if ch == "*" else re.escape(ch) for ch in body)
+        return re.match(expr + ("$" if anchored else ""), path) is not None
+
+    def allowed(agent, path="/"):
+        """Is `agent` allowed to fetch `path`?
+
+        Most-specific group wins (exact user-agent match, else `*`); within it
+        the longest matching rule wins and Allow breaks a tie of equal length,
+        per RFC 9309 section 2.2.2. An empty Disallow means "allow everything";
+        an empty Allow is a no-op.
+        """
         a = agent.lower()
         rules = groups.get(a, groups.get("*"))
         if rules is None:                 # no group applies -> default allow
             return True
-        best_len, best_allow = -1, True   # default allow if no rule matches '/'
+        best_len, best_allow = -1, True   # default allow if no rule matches
         for directive, value in rules:
             if value == "":
-                # empty Disallow == "allow everything"; empty Allow is a no-op
                 if directive != "disallow":
                     continue
                 length, is_allow = 0, True
             else:
-                if not "/".startswith(value):
+                if not _pattern_matches(value, path):
                     continue
+                # RFC 9309 compares by the length of the PATTERN, not of the
+                # matched text, so /* and / are not the same length.
                 length, is_allow = len(value), (directive == "allow")
             if length > best_len or (length == best_len and is_allow):
                 best_len, best_allow = length, is_allow
@@ -104,7 +152,7 @@ if "--json" in sys.argv[1:]:
         "requires_network": False,
         "measurements": [
             {"id": "ai_user_agents_allowed", "role": "primary",
-             "metric": "AI crawler user-agents allowed by robots.txt for path / (of the 8 tested)",
+             "metric": "AI-related robots.txt tokens allowed for path / (of the 8 tested; a mix of retrieval, training and usage-control tokens, not all of them HTTP crawlers)",
              "unit": "user-agents",
              "before_value": rows[0]["ai_user_agents_allowed"],
              "after_value": rows[1]["ai_user_agents_allowed"]},
@@ -127,6 +175,10 @@ PY
 
 if [ "$JSON" -eq 0 ]; then
   echo
-  echo "before: AI crawlers blocked in robots.txt and no /llms.txt -> nothing to cite."
-  echo "after:  AI crawlers allowed and a curated /llms.txt published -> extractable."
+  echo "before: every tested token is disallowed in robots.txt, and no /llms.txt is served."
+  echo "        That is a statement of declared access. It does not measure whether any"
+  echo "        engine retrieved, indexed or cited the page -- none of which is observed here."
+  echo "after:  every tested token is allowed and a curated /llms.txt is served."
+  echo "        Still declared access, now permissive. Whether any engine acts on it"
+  echo "        is the open question this cookbook does not answer."
 fi

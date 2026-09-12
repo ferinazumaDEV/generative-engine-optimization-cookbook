@@ -14,7 +14,7 @@ requires_llm: false
 requires_network: false
 tool: "python3 stdlib + bash"
 engines: [GPTBot, ClaudeBot, anthropic-ai, PerplexityBot, Google-Extended, CCBot, Applebot-Extended, Bytespider]
-metric: "AI crawler user-agents allowed by robots.txt for path / (of the 8 tested)"
+metric: "AI-related robots.txt tokens allowed for path / (of the 8 tested; a mix of retrieval, training and usage-control tokens, not all of them HTTP crawlers)"
 unit: user-agents
 before_value: 0
 after_value: 8
@@ -28,4 +28,4 @@ sample_unit: "AI crawler user-agents"
 confidence: moderate
 measured_date: 2026-09-01
 last_verified: 2026-09-04
-limitations: "Measures a precondition (reachability and an extractable feed), not whether any answer engine cites the page."
+limitations: "Measures a precondition (declared access and an extractable feed), not whether any answer engine retrieves, indexes or cites the page. The eight tokens are not eight HTTP crawlers: Google-Extended and Applebot-Extended are usage-control tokens with no independent user-agent, and most of the rest govern training rather than retrieval. The measured values are unchanged by the 2026-09-12 parser correction; only the name and this note changed, because the instrument was already producing the right numbers on these fixtures while being wrong on inputs they do not contain."
