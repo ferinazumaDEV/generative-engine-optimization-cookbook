@@ -1,4 +1,4 @@
-<!-- synced-from: a6ee71d238141ff112f7fd4f8704fd1b257c71fe -->
+<!-- synced-from: 675309cad81c459ae2d7897b3b6d79453fa28bcf -->
 # The GEO Cookbook
 
 **English**: [README.md](README.md) · [Español](README.es.md)
@@ -20,7 +20,7 @@ Todos los ejemplos están pensados para que **los ejecutes y los verifiques tú*
 | Afirmaciones | Seis experimentos reproducibles sobre la legibilidad automática de contenido web para motores de respuesta generativos. Cada uno empareja un artefacto antes/después con un script offline determinista, e informa de la propiedad medida junto con su proxy, el tamaño de muestra, la confianza y las limitaciones. Las mediciones son únicamente proxies de legibilidad automática: ninguna mide recuperación, reordenación, generación ni citación por parte de ningún motor. |
 | Basado en | <https://github.com/ferinazumaDEV/generative-engine-optimization-handbook> |
 | Fuentes | el `measurement.md` de cada receta; [arXiv:2604.07585](https://arxiv.org/abs/2604.07585) |
-| Versión | 0.1.2 — [releases](https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook/releases), 2026-09-06 |
+| Versión | 0.1.3 — [releases](https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook/releases), 2026-09-13 |
 | Licencia | CC-BY-4.0 para la prosa ([LICENSE](LICENSE)); MIT para los ejemplos de código ([LICENSES/MIT.txt](LICENSES/MIT.txt)) |
 | DOI | [10.5281/zenodo.22299279](https://doi.org/10.5281/zenodo.22299279) (DOI de concepto — siempre la última versión) |
 | dateModified | 2026-09-04 |

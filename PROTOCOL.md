@@ -4,8 +4,9 @@
 has been collected under this protocol. Nothing in this repository claims an
 effect on any engine; this document says how such a claim *could* be earned,
 and commits to the design before any result exists so the result cannot shape
-it. It is not registered externally yet; the section *Registration* says what
-that would take and why it matters.
+it. It is registered externally through the Zenodo archive of the release that
+carries it; the section *Registration* says how, and what that does and does
+not guarantee.
 
 Everything else in this cookbook measures **preconditions** — whether a page's
 content is visible to a crawler that does not run JavaScript, whether its facts
@@ -141,12 +142,21 @@ which and why, and the result is downgraded to *not independently checkable*.
 
 This document being in git with a date is not preregistration; a commit can be
 rewritten. Preregistration means a third party holds a timestamped copy that
-the authors cannot alter. The intended route is a Zenodo deposit of this file
-(or an OSF registration) **before the query panel is published**, with the DOI
-recorded here. Until that line carries a DOI, the honest word for this document
-is *design*, not *preregistration*.
+the authors cannot alter. The route taken is the Zenodo archive of this
+repository's tagged releases: every release from v0.1.1 onward is deposited by
+Zenodo, which mints a version DOI under the concept DOI 10.5281/zenodo.22299279
+and keeps the deposited files immutable. This document is part of release
+v0.1.3, deposited **before the query panel is published** (the panel does not
+exist yet). The version DOI is minted by Zenodo at deposit time and is listed on
+the concept record's version list under v0.1.3; a later edit to this file lands
+in a later release with its own DOI, so the registered text is the one in the
+v0.1.3 record, not the one on `main`.
 
-> Registered: *not yet*. DOI: —.
+> Registered: release v0.1.3 of this repository, 2026-09-13, archived by Zenodo
+> under concept DOI [10.5281/zenodo.22299279](https://doi.org/10.5281/zenodo.22299279)
+> (version DOI: see the v0.1.3 entry on that record). Registered by the author,
+> not by a third-party registry with review: the timestamp and immutability are
+> Zenodo's; the design is not peer-reviewed.
 
 ## 13. Relationship to the earlier observation protocol
 

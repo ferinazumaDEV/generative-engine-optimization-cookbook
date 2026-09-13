@@ -20,6 +20,8 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 
 ## [Unreleased]
 
+## [0.1.3] — 2026-09-13
+
 ### Added
 
 - `PROTOCOL.md`: a preregistered design for the one question this cookbook has
@@ -72,6 +74,10 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 
 ### Added
 
+- **`INSTRUMENTS.md`** — the specification of the six instruments: what each
+  counts, what it deliberately does not, and how its definition has changed,
+  with the rule that a definition change is made test-first and never moves a
+  published value silently.
 - `tests/test_instruments.py`: a conformance corpus for all six instruments,
   94 checks, mostly negative controls — inputs that look like the thing being
   counted and must not count. For robots.txt and Wikidata: wildcards, end
