@@ -20,6 +20,16 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 
 ## [Unreleased]
 
+### Added
+
+- `PROTOCOL.md`: a preregistered design for the one question this cookbook has
+  never answered — whether a machine-legibility change alters citation by
+  generative engines. Controlled pairs (`before/`/`after/`), a query panel
+  frozen before publication, five engines, four dates, a measured noise floor,
+  crawl evidence before results are believed, and the analysis decided in
+  advance. **Not yet run, and not yet externally registered**; the document
+  says what would make it so, and until then calls itself a design.
+
 ### Fixed
 
 - **`ai-crawler-access`: the robots.txt matcher now implements RFC 9309.** It
