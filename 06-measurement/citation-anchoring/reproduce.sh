@@ -17,8 +17,12 @@ import json, re, sys
 # A "source" = an inline linkable reference adjacent to that claim, i.e. a
 # markdown link with an http(s) URL on the same line: [text](https://...).
 # A claim->source PAIR is one claim line that contains >= 1 such source.
+# Code is quoted, not asserted: fenced blocks are skipped and inline code spans
+# are ignored. An image embed (![alt](url)) is not a source.
 CLAIM_LINE = re.compile(r'^\s*[-*]\s+\S')
-INLINE_LINK = re.compile(r'\]\((https?://[^)\s]+)\)')
+INLINE_LINK = re.compile(r'(?<!!)\[[^\]]*\]\((https?://[^)\s]+)\)')
+CODE_SPAN = re.compile(r'`[^`\n]*`')
+FENCE = re.compile(r'^\s*(```|~~~)')
 
 def analyze(path):
     text = open(path, encoding="utf-8").read()
@@ -26,10 +30,16 @@ def analyze(path):
     block = m.group(1) if m else text
     claims = 0
     sourced = 0
+    in_fence = False
     for line in block.splitlines():
+        if FENCE.match(line):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
         if CLAIM_LINE.match(line):
             claims += 1
-            if INLINE_LINK.search(line):
+            if INLINE_LINK.search(CODE_SPAN.sub('', line)):
                 sourced += 1
     return claims, sourced
 

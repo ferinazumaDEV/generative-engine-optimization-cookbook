@@ -33,6 +33,21 @@ Every figure in a release is reproducible offline from the tag it belongs to.
   something Q-ID-shaped counted — including one not hosted on Wikidata at all.
   Scheme, host and path are now checked and the Q-ID must be the whole final
   segment. (External re-audit, F07.)
+- **`structured-data-jsonld`: a commented-out block is not on the page, and a
+  block that does not parse yields nothing instead of aborting the run.** The
+  extractor scanned the raw HTML, so `<!-- <script type="application/ld+json">…
+  -->` counted, and a single malformed block made `json.loads` raise and the
+  whole measurement die. Comments are stripped first; unparseable blocks are
+  skipped and the others still count. Found by the negative controls below.
+- **`citation-anchoring`: code is quoted, not asserted, and an image is not a
+  source.** A list item inside a fenced code block counted as a claim, a link
+  inside an inline code span counted as its source, and `![alt](https://…)`
+  counted as a linkable reference. Fenced blocks are skipped, code spans are
+  ignored when looking for the link, and image embeds are excluded. Found by the
+  negative controls below.
+- **`ssr-vs-csr-rendering`: numeric character references are not words.** The
+  stripper removed `&amp;`-style entities only, so `&#8212;` and `&#x2014;` each
+  counted as a visible word. Found by the negative controls below.
 
 ### Changed
 
@@ -47,14 +62,26 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 
 ### Added
 
-- `tests/test_instruments.py`: a 26-case conformance corpus for the two
-  instruments, mostly negative controls — wildcards, end anchors, Allow/Disallow
-  ties, regex metacharacters that must stay literal, lookalike hosts, a property
-  ID where an item ID is required. No network, no dependencies.
+- `tests/test_instruments.py`: a conformance corpus for all six instruments,
+  94 checks, mostly negative controls — inputs that look like the thing being
+  counted and must not count. For robots.txt and Wikidata: wildcards, end
+  anchors, Allow/Disallow ties, regex metacharacters that must stay literal,
+  lookalike hosts, a property ID where an item ID is required. For the other
+  four: malformed and commented-out JSON-LD, `@type` as a list, `@graph`,
+  untyped values; scripts, styles, comments, attributes and entities that are
+  not visible words (and `<noscript>`, which is exactly what a no-JS reader is
+  served, pinned as counting); `javascript:` and relative links, bare URLs,
+  reference-style links, code and images that are not sources; an empty
+  document, a one-paragraph document and headings without bodies for the
+  chunker. Plus one metamorphic check per instrument: reordering a document's
+  units leaves the count alone, and concatenating it with itself doubles it.
+  The four instruments that are Python heredocs or a bash function are
+  executed straight out of their `reproduce.sh`, so the test cannot drift from
+  the recipe. No network, no dependencies beyond python3, bash and perl.
 
 **All 11 measured values are unchanged**, verified by rebuilding the dataset
 and comparing record by record: the fixtures in this repository never contained
-the inputs that defeated either instrument. `schema_version` stays at 2. Adding
+the inputs that defeated any of the five corrected instruments. `schema_version` stays at 2. Adding
 `OAI-SearchBot` to the roster — which belongs there — would move 8 → 9 and is
 deferred to a versioned dataset change (`0.2.0`, `schema_version: 3`) rather
 than folded into a bug fix.

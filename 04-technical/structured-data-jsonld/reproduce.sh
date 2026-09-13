@@ -22,6 +22,9 @@ import json, re, sys
 def count(path):
     html = open(path, encoding="utf-8").read()
 
+    # A commented-out block is not on the page: drop comments before scanning.
+    html = re.sub(r"<!--.*?-->", "", html, flags=re.DOTALL)
+
     # Grab the contents of every application/ld+json script block.
     blocks = re.findall(
         r'<script[^>]*type\s*=\s*["\']application/ld\+json["\'][^>]*>(.*?)</script>',
@@ -43,7 +46,11 @@ def count(path):
                 walk(v)
 
     for raw in blocks:
-        walk(json.loads(raw))
+        try:
+            data = json.loads(raw)
+        except ValueError:
+            continue  # a block no parser can parse yields nothing; the others still count
+        walk(data)
 
     return entities, facts
 
