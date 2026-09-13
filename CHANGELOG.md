@@ -20,6 +20,45 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 
 ## [Unreleased]
 
+### Fixed
+
+- **`ai-crawler-access`: the robots.txt matcher now implements RFC 9309.** It
+  compared patterns with `str.startswith`, so `*` and `$` were ordinary text and
+  `Disallow: /*` — the most common way to block a site — scored as *8 of 8
+  allowed*. `*` now matches any sequence, a trailing `$` anchors to the end of
+  the path, the longest pattern wins and Allow breaks an equal-length tie.
+  (External re-audit, F06.)
+- **`entity-clarity-sameas`: only complete Wikidata entity URLs count.** The
+  matcher used an unanchored `re.search`, so any string merely *containing*
+  something Q-ID-shaped counted — including one not hosted on Wikidata at all.
+  Scheme, host and path are now checked and the Q-ID must be the whole final
+  segment. (External re-audit, F07.)
+
+### Changed
+
+- **`ai-crawler-access`: the metric is renamed to say what it counts.** *AI
+  crawler user-agents* → *AI-related robots.txt tokens*, because the eight
+  tokens mix retrieval, training and usage-control tokens and two of them
+  (`Google-Extended`, `Applebot-Extended`) have no HTTP user-agent. Each token
+  now carries its role and the vendor's own documentation in `reproduce.sh`. The
+  script's output no longer infers citability from access.
+- The dataset's `limitations` note for that recipe explains the taxonomy and
+  states that the values did not change.
+
+### Added
+
+- `tests/test_instruments.py`: a 26-case conformance corpus for the two
+  instruments, mostly negative controls — wildcards, end anchors, Allow/Disallow
+  ties, regex metacharacters that must stay literal, lookalike hosts, a property
+  ID where an item ID is required. No network, no dependencies.
+
+**All 11 measured values are unchanged**, verified by rebuilding the dataset
+and comparing record by record: the fixtures in this repository never contained
+the inputs that defeated either instrument. `schema_version` stays at 2. Adding
+`OAI-SearchBot` to the roster — which belongs there — would move 8 → 9 and is
+deferred to a versioned dataset change (`0.2.0`, `schema_version: 3`) rather
+than folded into a bug fix.
+
 ## [0.1.2] — 2026-09-06
 
 The archived copy had fallen behind. `v0.1.1` was tagged on 4 September and seven
