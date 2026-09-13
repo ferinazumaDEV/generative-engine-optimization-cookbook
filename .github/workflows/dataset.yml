@@ -34,6 +34,14 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: The measurement instruments conform to their specification
+        # tests/test_instruments.py is the conformance corpus for the robots.txt
+        # matcher and the Wikidata matcher: 26 cases, mostly negative controls.
+        # It existed for a day without any workflow running it, which made it
+        # decoration. It runs first because a dataset rebuilt with a broken
+        # instrument reproduces its numbers perfectly and proves nothing.
+        run: python3 tests/test_instruments.py
+
       - name: Rebuild the dataset from the recipes
         # build.sh runs every recipe's own reproduce.sh --json and cross-checks
         # each number against that recipe's meta.yml, failing rather than

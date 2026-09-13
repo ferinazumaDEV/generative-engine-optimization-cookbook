@@ -85,6 +85,43 @@ WIKIDATA_CASES = [
 ]
 
 
+# --- the copies above must be the recipes' code, not a memory of it ---------- #
+#
+# The two matchers are re-implemented here because the recipes are bash scripts
+# with embedded Python and cannot be imported. A copy can drift. So the drift is
+# checked: the matching function body and the Wikidata pattern are read out of
+# the recipe files and compared, character for character, with what this file
+# tests. If a recipe changes, this test fails until the corpus is updated -- or
+# until the recipe is changed back.
+
+RECIPE_ROBOTS = "04-technical/ai-crawler-access/reproduce.sh"
+RECIPE_WIKIDATA = "05-authority/entity-clarity-sameas/reproduce.sh"
+
+
+def _recipe_text(path):
+    import os
+    here = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(here, "..", path), encoding="utf-8") as fh:
+        return fh.read()
+
+
+def _robots_matcher_body_in(text):
+    m = re.search(r"anchored = pattern\.endswith\(\"\$\"\)\n.*?return re\.match\([^\n]*\n", text, re.S)
+    return re.sub(r"^[ \t]+", "", m.group(0), flags=re.M) if m else None
+
+
+def check_no_drift():
+    problems = []
+    recipe_body = _robots_matcher_body_in(_recipe_text(RECIPE_ROBOTS))
+    local_body = _robots_matcher_body_in(open(__file__, encoding="utf-8").read())
+    if not recipe_body or recipe_body != local_body:
+        problems.append(f"robots matcher in {RECIPE_ROBOTS} differs from the copy tested here")
+    m = re.search(r'WIKIDATA = re\.compile\(\n?\s*r"([^"]+)"', _recipe_text(RECIPE_WIKIDATA))
+    if not m or m.group(1) != WIKIDATA.pattern:
+        problems.append(f"Wikidata pattern in {RECIPE_WIKIDATA} differs from the copy tested here")
+    return problems
+
+
 def main():
     failures = []
 
@@ -98,14 +135,15 @@ def main():
         if got != expected:
             failures.append(f"wikidata/{name}: {url!r} -> accepted={got}, expected {expected}")
 
-    total = len(ROBOTS_CASES) + len(WIKIDATA_CASES)
+    failures.extend(check_no_drift())
+    total = len(ROBOTS_CASES) + len(WIKIDATA_CASES) + 2
     if failures:
         sys.stderr.write(f"\nInstrument conformance FAILED -- {len(failures)} of {total}:\n")
         for f in failures:
             sys.stderr.write(f"  - {f}\n")
         return 1
     print(f"instruments OK: {len(ROBOTS_CASES)} robots cases, "
-          f"{len(WIKIDATA_CASES)} Wikidata cases, {total} total")
+          f"{len(WIKIDATA_CASES)} Wikidata cases, 2 drift checks, {total} total")
     return 0
 
 
