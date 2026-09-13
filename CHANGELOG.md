@@ -20,6 +20,8 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 
 ## [Unreleased]
 
+## [0.1.3] — 2026-09-13
+
 ### Added
 
 - `PROTOCOL.md`: a preregistered design for the one question this cookbook has
