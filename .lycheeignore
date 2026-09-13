@@ -17,3 +17,12 @@
 # also silence the record pages, which is exactly what this repository must
 # keep checking.
 zenodo\.org/badge/
+
+# doi.org/10.5281/zenodo.* — the citation DOI. Not ignored because it does not
+# matter: ignored because lychee is the wrong instrument for it. The resolver
+# redirects to zenodo.org, whose front end times out from GitHub's runners and
+# was down for ~5 h on 2026-09-13 while the DOI itself was fine. The DOI is
+# checked on every run of this same workflow against DataCite, the registry it
+# lives in (state must be `findable`, target must be zenodo.org). If the DOI
+# ever breaks for real, that step fails and CI says so.
+doi\.org/10\.5281/zenodo\.

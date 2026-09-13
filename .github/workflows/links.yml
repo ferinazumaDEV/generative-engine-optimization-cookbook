@@ -32,9 +32,35 @@ jobs:
   linkcheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: The DOI is registered and resolves, according to the registry
+        # Zenodo's web front end answers slowly from datacenter IPs and was
+        # down (504 on every page) for about five hours on 2026-09-13, so the
+        # link checker cannot be the judge of the DOI: it reports a timeout on
+        # a citation that is perfectly alive. DataCite is the registry the DOI
+        # lives in. If it says the DOI is `findable` and points at zenodo.org,
+        # the citation resolves; if it ever stops saying so, this fails. The
+        # doi.org link is therefore excluded from lychee (see .lycheeignore)
+        # and checked here on every run, against the registry itself.
+        run: |
+          set -euo pipefail
+          dois=$(grep -ohE '10\.5281/zenodo\.[0-9]+' CITATION.cff README.md llms.txt about.jsonld 2>/dev/null | sort -u || true)
+          if [ -z "$dois" ]; then
+            echo "::error::no Zenodo DOI found in CITATION.cff / README.md / llms.txt / about.jsonld -- nothing was checked"
+            exit 1
+          fi
+          for doi in $dois; do
+            json=$(curl -sS --max-time 30 -H 'Accept: application/vnd.api+json' "https://api.datacite.org/dois/$doi" || true)
+            state=$(printf '%s' "$json" | jq -r '.data.attributes.state // "missing"' 2>/dev/null || echo "unparseable")
+            url=$(printf '%s' "$json" | jq -r '.data.attributes.url // ""' 2>/dev/null || echo "")
+            case "$state:$url" in
+              findable:https://zenodo.org/*) echo "ok  $doi -> $url ($state)" ;;
+              *) echo "::error::DOI $doi is not a findable Zenodo DOI according to DataCite (state=$state url=$url)"; exit 1 ;;
+            esac
+          done
+
       - name: Check links
-        uses: lycheeverse/lychee-action@v2
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
         with:
           args: >-
             --no-progress
