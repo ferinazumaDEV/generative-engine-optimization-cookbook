@@ -112,6 +112,10 @@ def main() -> int:
     for host in HOSTS:
         try:
             ctx = ssl.create_default_context()
+            # The default context still permits TLS 1.0 and 1.1. This check exists to detect
+            # interception, so it must not itself accept a protocol version an interceptor could
+            # downgrade the connection to.
+            ctx.minimum_version = ssl.TLSVersion.TLSv1_2
             with ctx.wrap_socket(socket.create_connection((host, 443), timeout=20), server_hostname=host) as s:
                 cert = s.getpeercert()
             cn = dict(x[0] for x in cert["subject"]).get("commonName", "?")
