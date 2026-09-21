@@ -20,6 +20,29 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 
 ## [Unreleased]
 
+### Added
+
+- `PROTOCOL.md` section 13-ter, a dated addendum: the one engine 13-bis found
+  observable was, four hours later, returning result pages that answer a
+  different query — right title, no CAPTCHA, ten well-formed results, a
+  different unrelated set on each request, and at 15:47:08Z one control query
+  passing while another failed in the same run. The preregistration is not
+  edited; the addendum records what was measured and what it changes.
+- `protocol/probes/`: the two checks that afternoon forced into existence.
+  `engine-answering-control.py` asserts that a control query returns a named
+  domain its correct answer must contain, over at least two queries, and exits
+  non-zero so a run can be gated on it. `network-is-clean.py` decides whether
+  the machine's own view of the web is intact before an engine is blamed, and
+  reports a corroborating engine as *corroborates*, *contradicts* or
+  *inconclusive* so that its silence cannot be read as an alarm. Standard
+  library only: no browser, no account, no API key.
+
+### Changed
+
+- The rule a run is gated on is now positive: a control asserts a correct
+  answer rather than the absence of a refusal, and any one control failing
+  voids the entire run. A void run is discarded, not recorded as zeros.
+
 ## [0.1.3] — 2026-09-13
 
 ### Added

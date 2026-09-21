@@ -209,6 +209,103 @@ inside the answer block is a `bing.com` redirect, so the cited domain has to be 
 
 Raw data and the probe scripts ship with the ecosystem snapshot of the same date, under `evidencia/`.
 
+## 13-ter. Addendum, 2026-09-21 afternoon — the observable engine answers the wrong query, intermittently and silently
+
+Nothing above is rewritten, including 13-bis. 13-bis recorded, from probes around midday, that Bing/Copilot was
+the one engine in section 6 observable from this address. Four hours later it was returning result pages that do
+not answer the query asked, and the way it fails would have passed every check 13-bis specified.
+
+### What was served
+
+Between 15:30Z and 15:47Z, from the same datacenter address in Spain, requests to Bing came back with the
+**right page title**, **no CAPTCHA**, **no unusual-traffic text**, a plausible `About N results`, and ten
+well-formed organic results belonging to some entirely different query:
+
+| query asked | domains returned in the top ten |
+|---|---|
+| how do I braise short ribs | `detail.chiebukuro.yahoo.co.jp`, `forums.commentcamarche.net` |
+| how do I braise short ribs *(again, minutes later)* | `juraforum.de`, `123recht.de` |
+| caesium-137 half life wikipedia | `webmail.sfr.fr`, `assistance.sfr.fr`, `espace-client.sfr.fr` |
+| caesium-137 half life wikipedia *(again)* | `giallozafferano.it`, `cucinadelmuseo.it`, `soscuisine.com` |
+| caesium-137 half life wikipedia *(15:47:08Z)* | `forum.chip.de` |
+| python documentation sys module | `justwatch.com`, `skyshowtime.com`, `vod.tvp.pl` |
+| python documentation sys module *(15:47:08Z)* | `python.org`, `w3schools.com`, `en.wikipedia.org` — **correct** |
+
+Each page is internally coherent. It reads like a correct result page *for another query*, and the other query
+differs on every request. No generated answer block appeared in any of them.
+
+The last two rows are the important ones. **At the same moment, in the same run, one control query was answered
+correctly and the other was not.** The failure is per-query and intermittent, not a state the address is in.
+
+### Why this is not our client, and not our network
+
+1. **Two independent clients.** A headed Chromium on a real X display, and plain `urllib` with a browser
+   User-Agent and no cookies. Both got unrelated results. The browser profile is not the cause.
+2. **Known content over the same channel.** `en.wikipedia.org/wiki/Caesium-137` returns the real article.
+   Response bodies are not being rewritten in transit.
+3. **A second engine, same address, same channel, same minute.** DuckDuckGo's HTML endpoint, asked the same
+   control query at 15:46Z, returned `en.wikipedia.org` first. The address is not cut off and the query is
+   answerable. Asked again a minute later it replied `HTTP 202` with no results of its own — which is a second
+   engine declining, and says nothing either way.
+4. **Certificates.** `www.bing.com` presents a Microsoft-issued certificate, `en.wikipedia.org` a Let's Encrypt
+   one. Nothing is intercepting TLS.
+
+What the mechanism is — a cache key collision, a routing fault, an anti-automation response that degrades rather
+than refusing — is not determined here, and this addendum does not guess.
+
+### What this changes in the design
+
+**A control has to assert a correct answer, not the absence of a refusal.** 13-bis, consequence 3, asked for a
+control query at the start and end of every run so a rate-limited blank is not scored as *not cited*. That
+control passes this state completely: the engine is not refusing, it answers in under a second with ten results.
+
+Two other plausible checks also fail to catch it:
+
+- *Does the page depend on the query at all?* It does — the junk is different every time — so comparing
+  unrelated queries against each other reports that everything is fine.
+- *Did the control query pass?* At 15:47:08Z one did and one did not. **A single control query would have
+  declared that run valid**, and every observation in it would have entered the dataset.
+
+So the rule this addendum adds: **at least two control queries, each asserting a named domain its correct answer
+must contain, at the start and at the end of every run. Any one of them failing voids the whole run.** A void run
+is discarded, not recorded as zeros and not kept as partial data. `protocol/probes/engine-answering-control.py`
+implements exactly this and exits non-zero so a run can be gated on it.
+
+**Observability is a property of (engine, address, client, query, moment), not of an engine.** The table in
+13-bis therefore reports a state at a timestamp, not a capability. Any run has to carry its own evidence that the
+engine was answering while that run happened; establishing observability once and then collecting for weeks gives
+no way to tell which observations are real.
+
+**A corroborating check that goes quiet is not a failing check.** The first version of
+`protocol/probes/network-is-clean.py` treated the second engine's `HTTP 202` as evidence that the network was
+compromised, and announced it. Running a probe twice in a row was enough to produce that false alarm. A check
+whose silence is indistinguishable from its alarm is the same defect this protocol keeps finding elsewhere, so
+the second engine now reports *corroborates*, *contradicts* or *inconclusive*, and only *contradicts* counts
+against the machine.
+
+### A measurement gotcha, found by getting it wrong first
+
+Both the cited links and the **organic** links on a Bing result page are `bing.com/ck/a?...&u=a1<base64url>`
+redirectors. Reading the host off the `href` gives `bing.com` for all ten results. The first version of the
+query-dependence check did that, compared the resulting domain sets across three unrelated queries, got a Jaccard
+index of 1.00, and was one step away from reporting "the page does not depend on the query at all" — a finding
+produced entirely by the collector's own bug. The target has to be decoded from the `u=a1` parameter, and a link
+that cannot be decoded has to be recorded as unresolved rather than counted or silently dropped.
+
+### What this does not show
+
+It does not show that Bing is unobservable in general, from other addresses, or at other times — the correct
+`python.org` result at 15:47:08Z is in the table precisely because it contradicts the simpler story. It does not
+identify the mechanism. And it does not advance the question this protocol exists to answer: no citation data was
+collected, and the study still has no result about machine legibility and citation.
+
+What it adds is that the collector now refuses to record data from a run the engine was not answering — and that
+the check which would have been written without this afternoon would not have refused anything.
+
+Probes: [`protocol/probes/engine-answering-control.py`](protocol/probes/engine-answering-control.py) and
+[`protocol/probes/network-is-clean.py`](protocol/probes/network-is-clean.py), standard library only, no account and no
+API key. Raw output ships with the ecosystem snapshot of the same date under `evidencia/`.
+
 ## 14. Sources
 
 - Aggarwal et al., *GEO: Generative Engine Optimization*, KDD 2024 —
