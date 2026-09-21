@@ -168,6 +168,47 @@ does not subsume it. The two answer different questions and should not be
 confused: that one asks *how* an engine cites; this one asks *whether* a change
 we made alters *what* it cites.
 
+## 13-bis. Addendum, 2026-09-21 — can these engines actually be observed?
+
+Nothing above is rewritten. A pre-registration that is quietly edited is not one, so this is an addendum with a
+date: what was measured, and what it means for the design as registered.
+
+Section 6 names five engines and one hard condition — *private session, no account, one named country, one named
+language, desktop web*. On 2026-09-21 each of them was requested once, from a datacenter address in Spain, in a
+fresh browser context with no account, on a real (headed) browser:
+
+| engine | what happened |
+|---|---|
+| Google AI Overviews / AI Mode | redirected to `google.com/sorry` — the unusual-traffic block. **Not observable from this address.** |
+| Bing / Copilot | served a full results page with a generated answer. **Observable.** |
+| Perplexity | redirected to `/search/new`; sign-in wall on the answer. **Not observable without an account.** |
+| Gemini | sign-in wall. **Not observable without an account.** |
+| ChatGPT with search | navigation timed out at 45 s. **Not observable.** |
+
+So **four of the five engines this protocol registered cannot be observed under the conditions this protocol
+itself sets**, and the fifth is blocked from a datacenter address. That is a defect in the registered design, found
+before any data was collected rather than after, which is the only good time to find it.
+
+**What Bing actually shows** (four queries, same day): a generated answer on all four, with a *sources strip* under
+it and an attribution chip beside it (`Wikipedia +1`), and **no numbered or superscript markers inside the answer
+text**. Under section 3's definition that is *sources listed, not inline citation* — the case section 3 already
+says to record separately rather than score. One measurement gotcha for whoever writes the collector: every link
+inside the answer block is a `bing.com` redirect, so the cited domain has to be resolved, not read off the href.
+
+**Consequences for the next version of this protocol**, stated now so the revision is not retrofitted to the data:
+
+1. The engine list has to be rewritten around what is observable, or the study needs accounts — and an account
+   breaks the *private session, no account* condition, which exists so the observation is not personalised. That
+   is a real trade-off and it belongs in the design, not in a footnote.
+2. A residential address, or several, is a **precondition** and not an optimisation: Google is the largest surface
+   in the design and it is unreachable from a server.
+3. Whatever the final list is, the collector needs a **control query at the start and at the end of every run**.
+   Measured the same day on a different engine: once a rate limit is hit, a query the engine refuses to answer is
+   indistinguishable from one it answered without citing, and scoring the blank as *not cited* manufactures an
+   effect out of the collector's own quota.
+
+Raw data and the probe scripts ship with the ecosystem snapshot of the same date, under `evidencia/`.
+
 ## 14. Sources
 
 - Aggarwal et al., *GEO: Generative Engine Optimization*, KDD 2024 —
