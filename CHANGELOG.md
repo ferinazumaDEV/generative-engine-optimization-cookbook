@@ -38,6 +38,21 @@ Every figure in a release is reproducible offline from the tag it belongs to.
   DuckDuckGo declined both with `HTTP 202`.
 
 ### Added
+- `PROTOCOL.md` section 13-bis, a dated addendum: each of the five registered
+  engines was requested once from a datacenter address in a fresh browser
+  context with no account. **Four of the five cannot be observed under the
+  conditions this protocol itself sets** — Google blocks the address, Perplexity
+  and Gemini put the answer behind a sign-in, ChatGPT times out — and the fifth
+  is reachable only from an address the design cannot rely on. A defect in the
+  registered design, found before any data was collected rather than after.
+- `RELEASING.md`: how a release of this work actually happens. The part that
+  needed writing down is that this repository is the opposite of a package
+  repository — there is no `release.yml`, the tag triggers nothing, and
+  publishing the GitHub Release by hand is what fires the Zenodo webhook and
+  mints the version DOI.
+- `CONTRIBUTING.md`, `SECURITY.md` and `.github/CODEOWNERS`: governance files
+  that say how this repository actually works, present now in all nine
+  repositories of the cluster.
 
 - `PROTOCOL.md` section 13-ter, a dated addendum: the one engine 13-bis found
   observable was, four hours later, returning result pages that answer a
