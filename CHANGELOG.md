@@ -20,6 +20,21 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 
 ## [Unreleased]
 
+### Fixed
+
+- `protocol/probes/engine-answering-control.py` told a refusal apart from a wrong
+  answer only in `network-is-clean.py`, not in itself: a rate-limited `HTTP 202`
+  from DuckDuckGo was reported as "the engine returned pages that do not answer
+  the control queries", which is not what happened — no pages came back at all.
+  Each control now reports **answered**, **wrong-query** or **declined**. Both
+  failures still void the run and still exit non-zero, so nothing that gates on
+  the exit status changes; what changes is that the recorded reason is true.
+  The distinction is the whole substance of section 13-ter, so a probe shipped
+  with that addendum could not be blurring it.
+- Verified with all three outcomes observed live in one test on 2026-09-22: Bing
+  answered one control and returned voting information for the other, while
+  DuckDuckGo declined both with `HTTP 202`.
+
 ### Added
 
 - `PROTOCOL.md` section 13-ter, a dated addendum: the one engine 13-bis found

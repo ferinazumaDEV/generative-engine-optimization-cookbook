@@ -12,6 +12,12 @@ else's results is not, and scoring those pages produces data that looks clean an
 
 The control is positive and specific: a query whose correct answer must contain a named domain.
 
+Each control reports one of three outcomes: **answered**, **wrong-query** (results came back and belong
+to some other question), or **declined** (no results came back at all -- a non-200, a challenge page, a
+transport failure). Both failures void the run. They are reported apart because an engine that refuses
+and an engine that confidently answers the wrong question are different facts, and the finding in
+section 13-ter depends on being able to say which one happened.
+
     python3 engine-answering-control.py            # checks Bing
     python3 engine-answering-control.py duckduckgo
 
@@ -83,38 +89,62 @@ def domains(html: str) -> list[str]:
 
 
 def run(engine: str) -> tuple[bool, dict]:
+    """Each control has three outcomes, not two.
+
+    ``answered`` -- the expected domain is there.
+    ``wrong-query`` -- the engine returned results, and they belong to some other question.
+    ``declined`` -- the engine returned no results at all: a non-200, a challenge page, a transport
+    failure. It did not answer, which is a different fact from answering badly.
+
+    Both failing outcomes void the run, so the gate behaves identically. They are reported apart
+    because the whole finding in PROTOCOL.md section 13-ter rests on telling them apart, and a probe
+    that called a rate-limited HTTP 202 "the engine returned pages that do not answer the query"
+    would be asserting something it did not observe.
+    """
     template = ENGINES[engine]
     report = {
         "engine": engine,
         "when": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "controls": [],
     }
-    all_passed = True
     for query, expected in CONTROLS:
         entry: dict = {"query": query, "expected_domain": expected}
         try:
             html, status = fetch(template.format(q=urllib.parse.quote_plus(query)))
-        except Exception as exc:  # a transport failure is a failed control, not a crash
-            entry.update(passed=False, error=f"{type(exc).__name__}: {exc}"[:200])
+        except Exception as exc:
+            entry.update(outcome="declined", error=f"{type(exc).__name__}: {exc}"[:200])
             report["controls"].append(entry)
-            all_passed = False
-            print(f"  {query[:44]:44} FAILED  ({entry['error'][:50]})")
+            print(f"  {query[:44]:44} DECLINED  (unreachable: {entry['error'][:40]})")
             continue
         found = list(dict.fromkeys(domains(html)))
-        passed = any(expected in d for d in found)
-        all_passed &= passed
+        if status != 200 or not found:
+            outcome = "declined"
+        elif any(expected in d for d in found):
+            outcome = "answered"
+        else:
+            outcome = "wrong-query"
         entry.update(
-            passed=passed,
+            outcome=outcome,
             http_status=status,
             title=(re.search(r"<title>(.*?)</title>", html, re.S | re.I) or [None, ""])[1].strip()[:120],
             domains=found[:15],
             html_bytes=len(html),
         )
         report["controls"].append(entry)
-        print(f"  {query[:44]:44} {'PASSED' if passed else 'FAILED'}  (expected {expected})")
-        print(f"     returned: {', '.join(found)[:110] or '(no readable domains)'}")
-    report["run_is_valid"] = all_passed
-    return all_passed, report
+        label = {"answered": "ANSWERED", "wrong-query": "WRONG QUERY", "declined": "DECLINED"}[outcome]
+        print(f"  {query[:44]:44} {label:11} (expected {expected})")
+        if outcome == "declined":
+            print(f"     HTTP {status}, {len(found)} readable results — the engine did not answer.")
+        else:
+            print(f"     returned: {', '.join(found)[:105]}")
+
+    outcomes = [c["outcome"] for c in report["controls"]]
+    valid = all(o == "answered" for o in outcomes)
+    report["run_is_valid"] = valid
+    report["verdict"] = (
+        "valid" if valid else "void-wrong-query" if "wrong-query" in outcomes else "void-declined"
+    )
+    return valid, report
 
 
 if __name__ == "__main__":
@@ -125,12 +155,14 @@ if __name__ == "__main__":
     print(f"=== answering control: {name} ===")
     ok, rep = run(name)
     print()
-    print(
-        "RUN IS VALID — the engine answered the control queries correctly."
-        if ok
-        else "RUN IS VOID — the engine returned pages that do not answer the control queries.\n"
-        "Do not record observations collected in this state. They are not zeros."
-    )
+    if ok:
+        print("RUN IS VALID — the engine answered the control queries correctly.")
+    elif rep["verdict"] == "void-wrong-query":
+        print("RUN IS VOID — the engine returned results belonging to a different query.")
+        print("Do not record observations collected in this state. They are not zeros.")
+    else:
+        print("RUN IS VOID — the engine did not answer: no results came back at all.")
+        print("This is a refusal, not a wrong answer. Retry later; record nothing from it.")
     out = f"answering-control-{name}.json"
     with open(out, "w", encoding="utf-8") as fh:
         json.dump(rep, fh, indent=1, ensure_ascii=False)

@@ -27,6 +27,17 @@ returns someone else's results.
 **Two control queries, and any one failing voids the run.** On 2026-09-21 at 15:47:08Z one control passed and the
 other failed in the same run against the same engine. One control query would have declared that run valid.
 
+## Three outcomes, not two
+
+Each control reports **answered**, **wrong-query** (results came back, belonging to some other question) or
+**declined** (no results came back at all — a non-200, a challenge page, a transport failure). Both failures void
+the run and exit non-zero, so nothing that gates on the exit status changes. They are recorded apart because an
+engine that refuses and an engine that confidently answers a different question are different facts, and section
+13-ter exists entirely because of the difference.
+
+All three were observed in a single test on 2026-09-22: Bing answered one control correctly and returned voting
+information for the other, while DuckDuckGo replied `HTTP 202` with no results to both.
+
 ## What "void" means
 
 Discarded. A void run is not recorded as zeros, not kept as partial data, and not repaired by re-running only the
