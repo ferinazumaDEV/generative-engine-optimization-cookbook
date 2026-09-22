@@ -17,7 +17,7 @@ Every example is designed to be **run and verified by you** — most need no net
 | Claims | Six reproducible experiments on the machine legibility of web content for generative answer engines. Each pairs a before/after artifact with a deterministic offline script, and reports the measured property with its proxy, sample size, confidence and limitations. The measurements are machine-legibility proxies only: none of them measures retrieval, reranking, generation or citation by any engine. |
 | Based on | <https://github.com/ferinazumaDEV/generative-engine-optimization-handbook> |
 | Sources | per-recipe `measurement.md`; [arXiv:2604.07585](https://arxiv.org/abs/2604.07585) |
-| Version | 0.1.4 — [releases](https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook/releases), 2026-09-13 |
+| Version | 0.1.4 — [releases](https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook/releases), 2026-09-22 |
 | License | CC-BY-4.0 for prose ([LICENSE](LICENSE)); MIT for code samples ([LICENSES/MIT.txt](LICENSES/MIT.txt)) |
 | DOI | [10.5281/zenodo.22299279](https://doi.org/10.5281/zenodo.22299279) (concept DOI — always the latest release) |
 | dateModified | 2026-09-04 |
