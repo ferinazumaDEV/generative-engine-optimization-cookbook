@@ -37,8 +37,8 @@ identifiers:
 license: CC-BY-4.0
 # version and date-released must be bumped together with the git tag; the tag
 # is the source of truth, these two are the copy CFF requires.
-version: "0.1.3"
-date-released: "2026-09-13"
+version: "0.1.4"
+date-released: "2026-09-22"
 keywords:
   - generative engine optimization
   - GEO
