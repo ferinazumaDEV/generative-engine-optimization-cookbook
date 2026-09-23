@@ -20,6 +20,18 @@ Every figure in a release is reproducible offline from the tag it belongs to.
 
 ## [Unreleased]
 
+### Added
+
+- `citation-anchoring` reports an integrity check, `unresolved_fragment_links`:
+  claim links that point into the same document (`#id`) at a target that is
+  missing or declared twice. A pipeline that resolves relative hrefs before
+  counting would otherwise score such a link as a claim→source pair. Resolution
+  follows the HTML Standard (`id` or `<a name>`, percent-decoding, `#top`).
+  It is a separate identifier by design: `claim_source_pairs` is published with
+  a DOI and its definition does not move. 22 new controls in
+  `tests/test_instruments.py`, each rule seen failing before the fix. Values
+  unchanged: both fixtures report 0, and the dataset rebuilds byte-identical.
+
 ## [0.1.4] — 2026-09-22
 
 ### Fixed

@@ -20,6 +20,17 @@
 - The eight claims in `before/` are stated as fact with **no linkable path** back to any authority; a parser extracts zero (claim, source) pairs. In `after/` every claim ends with an inline citation, so all eight extract cleanly as (claim, source) pairs.
 - **Date:** 2026-09-01. Re-run `reproduce.sh` to reproduce.
 
+## Integrity check — fragment targets
+
+`reproduce.sh` also reports `unresolved_fragment_links`: links on claim lines that point at a fragment of **this same document** (`[text](#id)`) whose target is missing or declared more than once. It is not part of the pair count and does not change it; it exists because a pipeline that resolves relative links against the page URL turns a broken `#id` into an `https://` link the pair count would score as a source. Run it on the links as written.
+
+| Variant | Same-document fragment links on claims | Unresolved |
+|---|---|---|
+| `before/article.md` | 0 | **0** |
+| `after/article.md` | 0 | **0** |
+
+Neither fixture links into itself, so on this recipe the check certifies the 8 pairs rather than moving them. Its definitions and controls are in [`INSTRUMENTS.md`](../../INSTRUMENTS.md) §6.
+
 ## Confidence
 
 **Low–moderate.** The count itself is exact and fully reproducible (deterministic parser over fixed input). The *interpretation* — that more extractable claim→source pairs makes an engine more likely to cite the page — is **not** tested here. See Limitations.

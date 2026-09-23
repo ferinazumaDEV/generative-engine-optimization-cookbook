@@ -283,6 +283,50 @@ CITATION_LINES = [
     "- Four https://bare.example",
 ]
 
+# The fragment check rides on the same claims block. It answers one question the
+# pair count cannot: when a claim's link points INTO this document (``#id``),
+# does that id exist exactly once? A pipeline that resolves relative hrefs
+# against the page URL before counting turns ``#missing`` into
+# ``https://site/page#missing`` -- and then the pair count scores it as a source.
+# Resolution follows the HTML Standard's "find a potential indicated element":
+# an element with that id or an <a> with that name, the fragment tried as
+# written and percent-decoded, and ``#`` / ``#top`` meaning the top of the
+# document even with no such element. A duplicated id is flagged: ids must be
+# unique, so a citation pointing at one has no single target.
+
+FRAGMENT_CASES = [
+    # (name, markdown, expected_fragment_links, expected_unresolved)
+    # -- must be flagged (negative controls) --
+    ("a fragment with no such id",                  B % "- A [x](#missing)",                                   1, 1),
+    ("an id that differs only in case",             B % "- A [x](#section)" + '\n<h2 id="Section">S</h2>',   1, 1),
+    ("an id that is declared twice",                B % "- A [x](#dup)" + '\n<p id="dup">1</p><p id="dup">2</p>', 1, 1),
+    ("data-id is not an id",                        B % "- A [x](#t)" + '\n<p data-id="t">T</p>',            1, 1),
+    ("an id inside a fenced block is not an element",
+     B % "- A [x](#t)" + '\n```\n<p id="t">T</p>\n```',                                                      1, 1),
+    ("an id inside inline code is not an element",  B % "- A [x](#t)" + '\n`<p id="t">T</p>`',              1, 1),
+    # -- must NOT be flagged --
+    ("a link without a fragment is not broken",     B % "- A [x](https://e.com)\n- B [y](/docs/proof)",      0, 0),
+    ("a fragment into ANOTHER document is not judged", B % "- A [x](https://e.com/page#nope)",               0, 0),
+    ("an id that exists once resolves",             B % "- A [x](#t)" + '\n<h2 id="t">T</h2>',               1, 0),
+    ("single quotes and unquoted ids resolve",      B % "- A [x](#a)\n- B [y](#b)" + "\n<p id='a'>A</p><p id=b>B</p>", 2, 0),
+    ("an <a name> resolves",                        B % "- A [x](#n)" + '\n<a name="n"></a>',                1, 0),
+    ("an empty fragment is the top of the document", B % "- A [x](#)",                                       1, 0),
+    ("#top is the top of the document",             B % "- A [x](#top)\n- B [y](#TOP)",                      2, 0),
+    ("a percent-encoded fragment is decoded",       B % "- A [x](#caf%C3%A9)" + '\n<p id="café">C</p>',      1, 0),
+    ("an image is not a link",                      B % "- A ![alt](#missing)",                              0, 0),
+    ("a fragment link off a claim line is not counted", B % "Plain [x](#missing)\n- A",                      0, 0),
+    ("a fragment link in inline code is not counted", B % "- A `[x](#missing)`",                             0, 0),
+    ("the id may live outside the claims block",    '<h2 id="t">T</h2>\n' + B % "- A [x](#t)",               1, 0),
+]
+
+FRAGMENT_TARGETS = '\n<h2 id="one">1</h2><h2 id="two">2</h2>'
+FRAGMENT_LINES = [
+    "- One [s](#one)",
+    "- Two [s](#nowhere)",
+    "* Three [s](#two) and [t](#gone)",
+    "- Four [s](https://e.com)",
+]
+
 SSR_CASES = [
     # (name, html, expected_words)
     ("plain paragraph",                              "<p>one two three</p>",                                  3),
@@ -358,6 +402,29 @@ def run_citation(failures, tmp):
     return len(CITATION_CASES) + 3
 
 
+def run_fragments(failures, tmp):
+    recipe = _embedded_python(RECIPE_CITATION)
+    check = recipe.get("unresolved_fragments")
+    if check is None:
+        failures.append(f"fragments: {RECIPE_CITATION} defines no unresolved_fragments()")
+        return len(FRAGMENT_CASES) + 3
+    for i, (name, md, links, unresolved) in enumerate(FRAGMENT_CASES):
+        _check(failures, f"fragments/{name}", check(_write(tmp, f"fr{i}.md", md)), (links, unresolved))
+    base = check(_write(tmp, "fr-base.md", B % "\n".join(FRAGMENT_LINES) + FRAGMENT_TARGETS))
+    _check(failures, "fragments/metamorphic: the base block", base, (4, 2))
+    swapped = check(_write(tmp, "fr-swapped.md", B % "\n".join(FRAGMENT_LINES[::-1]) + FRAGMENT_TARGETS))
+    _check(failures, "fragments/metamorphic: reordering the claims", swapped, base)
+    # The targets stay declared once: doubling them would duplicate every id,
+    # which is a different document, not the same one twice.
+    doubled = check(_write(tmp, "fr-doubled.md", B % "\n".join(FRAGMENT_LINES * 2) + FRAGMENT_TARGETS))
+    _check(failures, "fragments/metamorphic: doubling the claims", doubled, (base[0] * 2, base[1] * 2))
+    # The pair count must not move because of this check: same inputs, same pairs.
+    analyze = recipe["analyze"]
+    _check(failures, "fragments/claim_source_pairs untouched",
+           analyze(_write(tmp, "fr-pairs.md", B % "\n".join(FRAGMENT_LINES) + FRAGMENT_TARGETS)), (4, 1))
+    return len(FRAGMENT_CASES) + 4
+
+
 def run_ssr(failures, tmp):
     for i, (name, html, words) in enumerate(SSR_CASES):
         _check(failures, f"ssr/{name}", words_visible(_write(tmp, f"ssr{i}.html", html)), words)
@@ -387,7 +454,8 @@ def main():
 
     with tempfile.TemporaryDirectory() as tmp:
         others = run_jsonld(failures, tmp) + run_chunker(failures, tmp) \
-            + run_citation(failures, tmp) + run_ssr(failures, tmp)
+            + run_citation(failures, tmp) + run_fragments(failures, tmp) \
+            + run_ssr(failures, tmp)
 
     total = len(ROBOTS_CASES) + len(WIKIDATA_CASES) + 2 + others
     if failures:
