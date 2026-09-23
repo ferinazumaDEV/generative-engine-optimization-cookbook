@@ -143,6 +143,35 @@ judgement — numbered list items.
   a linkable source. Found by the conformance corpus, fixed 2026-09-13 (0.1.3).
   Values unchanged: the fixtures contain no code spans, fences or images.
 
+**Integrity check: `unresolved_fragment_links`** (added after 0.1.4). Not a
+measurement of the technique, and not in the dataset — the schema carries one
+secondary measurement per recipe and this one's is `claims`. It is reported by
+`reproduce.sh` (a line in the table, a `checks` entry in `--json`) and it
+guards the pair count against one specific false positive: a claim whose link
+points INTO the document at an `id` that is not there. As written, `#missing`
+is relative and the pair count ignores it; but a pipeline that resolves
+relative hrefs against the page URL first (which it must, to see relative
+sources at all) turns it into `https://site/page#missing`, and the pair count
+then scores it as a source. So the check runs on the hrefs **as written**.
+
+It counts links on claim lines of the form `[text](#fragment)` and flags the
+ones whose target does not resolve, following the HTML Standard's *find a
+potential indicated element*: an element with that `id`, or an `<a>` with that
+`name`; the fragment tried as written and percent-decoded; `#` and `#top` (any
+case) are the top of the document even with no such element. Ids are
+case-sensitive. An `id` declared twice is flagged, because a citation pointing
+at it has no single target. It does not judge fragments into other documents
+(they cannot be checked offline), does not count `data-id` or any attribute
+that merely ends in `id`, and ignores ids and links inside fenced blocks or
+inline code. Both fixtures: 0 fragment links, 0 unresolved.
+
+Found in review: a `#`-link to a missing anchor scored as a perfect pair,
+confirmed by hand. Controls written first
+and seen failing against the recipe as it was; each rule was then broken on
+purpose (existence ignored, case folded, duplicates accepted, every link
+judged) and its own control went red. `claim_source_pairs` unchanged; the
+dataset rebuilt byte-identical.
+
 ---
 
 ## How a change to an instrument is made
