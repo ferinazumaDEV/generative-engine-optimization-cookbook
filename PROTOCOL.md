@@ -306,6 +306,41 @@ Probes: [`protocol/probes/engine-answering-control.py`](protocol/probes/engine-a
 [`protocol/probes/network-is-clean.py`](protocol/probes/network-is-clean.py), standard library only, no account and no
 API key. Raw output ships with the ecosystem snapshot of the same date under `evidencia/`.
 
+## 13-quater. Addendum, 2026-09-23 — controls and noise floors reported elsewhere since registration
+
+Sections 1–13 are not edited. This addendum records four preprints, opened on 2026-09-23, that bear on the design.
+None of them is a run of this protocol, and no data was collected.
+
+- **The source layer observed is a control.** Across 1,536 responses to product queries, the ChatGPT and Gemini
+  consumer interfaces share 5.4% of displayed source domains on average, with no domain in common in 76.7% of
+  comparisons, and each vendor's API shows a different source set from its own interface (mean domain overlap
+  12.0% for ChatGPT, 14.8% for Gemini). A run of this protocol therefore records which layer it observed,
+  interface or API; the two are not substitutes. Preprint, submitted 16 Sep 2026
+  (Source)(https://arxiv.org/abs/2609.18729).
+- **Exit country and query language are separable controls.** A 234-run probe of the logged-out ChatGPT web
+  interface and the OpenAI API, four exit countries by six query languages with six identical runs per cell,
+  collected on 29 and 30 August 2026, reports that which market's products are named is decided before the model
+  reasons about the products. Section 6 fixes neither; a run records both. Single author, single engine, two days.
+  Preprint, submitted 30 Aug 2026 (Source)(https://arxiv.org/abs/2608.30052).
+- **An independent estimate of the citation-decision noise floor.** In a hash-verified 2-by-2 replay of 103
+  blind-confirmed same-fact document pairs, structured rendering raises the target's citation count by +0.50 per
+  answer (95 percent CI [+0.20, +0.84]) without increasing total citations; the incidence effect (+4.5 percentage
+  points) is inconclusive; the observational citation-rate gap between rank 1 and rank 5 is 42.3 percentage points
+  against +7.9 under controlled reordering; and 15 percent of binary citation decisions change under fresh
+  decoding. That last figure sits beside the repeat-run floor section 7 requires. Preprint, submitted 14 Sep 2026
+  (Source)(https://arxiv.org/abs/2609.15164).
+- **The prompt corpus is part of the instrument.** A methodological critical survey argues that a visibility
+  score's prompt corpus and weights define an "answer market" that need not represent actual user demand, that a
+  language-model scorer's instruction can change the score assigned to an unchanged answer, and that a citation
+  alone does not establish a source's contribution; no new experiments. Section 5's frozen panel is such a corpus.
+  The paper's distinction between a with/without-source comparison in a controlled documentary context and a
+  full-engine intervention is the distinction between this repository's offline recipes and this protocol.
+  Preprint, submitted 6 Sep 2026 (Source)(https://arxiv.org/abs/2609.06811).
+- **Where the quoted Jaccard range comes from.** The ≈0.32–0.43 range this repository quotes from *Don't Measure
+  Once* is the paper's repeated-run figure: "the actual pairwise Jaccard similarity for sources averages between
+  0.32 and 0.43 across campaigns" for queries issued within minutes of each other (its Table 4); the day-to-day
+  figure is "between 0.34 and 0.42" (its Table 2) (Source)(https://arxiv.org/html/2604.07585).
+
 ## 14. Sources
 
 - Aggarwal et al., *GEO: Generative Engine Optimization*, KDD 2024 —
@@ -318,3 +353,19 @@ API key. Raw output ships with the ecosystem snapshot of the same date under `ev
   statistical inference*, JASA 22(158) —
   [doi:10.1080/01621459.1927.10502953](https://doi.org/10.1080/01621459.1927.10502953).
   The interval used in section 9.
+- Added 2026-09-23, for section 13-quater — *"If I Had to Buy Just ONE: Galaxy S26
+  Ultra": Auditing AI-Generated Product Recommendations*, 2026 —
+  [arXiv:2609.18729](https://arxiv.org/abs/2609.18729). Interface and API show
+  different sources.
+- Added 2026-09-23, for section 13-quater — Żatuchin, *The Language of the
+  Question Selects the Market*, 2026 —
+  [arXiv:2608.30052](https://arxiv.org/abs/2608.30052). Exit country and query
+  language as separable factors.
+- Added 2026-09-23, for section 13-quater — *CITECHOICE: A Causal Audit of How
+  Document Presentation Redistributes Citation Credit in Agentic Search*, 2026 —
+  [arXiv:2609.15164](https://arxiv.org/abs/2609.15164). Decoding flips 15
+  percent of binary citation decisions.
+- Added 2026-09-23, for section 13-quater — *Measuring GEO Visibility: Prompt
+  Corpora Define the Answer Market*, 2026 —
+  [arXiv:2609.06811](https://arxiv.org/abs/2609.06811). The prompt corpus is
+  part of the instrument.

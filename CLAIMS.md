@@ -30,6 +30,7 @@ This file states, per recipe, which claim is measured, which is not, and how to 
 - The **primary source** for every number is the recipe's own `reproduce.sh` — and [`dataset/build.sh`](dataset/build.sh), which refuses to write a value the script did not produce.
 - The handbook chapter named in `handbook_section` is a **source** for *why* the technique should matter — the rationale — not primary evidence that any engine cites the `after/` variant more often.
 - The primary source for why a small live test cannot settle the engine effect is [arXiv:2604.07585](https://arxiv.org/abs/2604.07585): repeated identical queries cite different sources within a day, so a lift measured with few runs sits inside the noise.
+- Dated note (2026-09-23): the ≈0.32–0.43 range that `CHANGELOG.md` quotes from that paper is its repeated-run figure — "the actual pairwise Jaccard similarity for sources averages between 0.32 and 0.43 across campaigns", queries issued within minutes of each other (its Table 4); the day-to-day figure is "between 0.34 and 0.42" (its Table 2). Neither number in this repository is edited (Source)(https://arxiv.org/html/2604.07585).
 
 ## Per-technique format, mapped onto a recipe directory
 

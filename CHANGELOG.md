@@ -31,6 +31,31 @@ Every figure in a release is reproducible offline from the tag it belongs to.
   a DOI and its definition does not move. 22 new controls in
   `tests/test_instruments.py`, each rule seen failing before the fix. Values
   unchanged: both fixtures report 0, and the dataset rebuilds byte-identical.
+- `04-technical/ai-crawler-access/README.md` and `measurement.md`: dated notes
+  (2026-09-23) re-checking the vendor documentation the recipe cites. Anthropic's
+  article moved to support.claude.com and links an IP-prefix file; Google's
+  crawler list moved and states that Google-Extended does not affect Search
+  inclusion; Apple's opt-out from Siri answers is `nosnippet`; Perplexity's
+  crawler page moved; DuckDuckGo documents DuckAssistBot; contentsignals.org
+  documents a `Content-Signal:` robots.txt line. Numbers, fixtures and the
+  8-token roster are untouched.
+- `04-technical/ai-crawler-access`: dated pointer (2026-09-23) to a
+  self-archived server-log measurement of llms.txt discovery (Zenodo DOI
+  10.5281/zenodo.22814844) and to what it does not measure.
+- `PROTOCOL.md` section 13-quater, a dated addendum (2026-09-23): controls and
+  noise-floor estimates published since registration — the source layer observed
+  (interface or API), exit country and query language, decoding flips — with the
+  four preprints added to section 14. Sections 1–13 unchanged.
+- `CLAIMS.md`: dated note (2026-09-23) locating the ≈0.32–0.43 Jaccard range
+  quoted in this changelog in the repeated-run figures of arXiv:2604.07585.
+- `06-measurement/citation-anchoring/README.md`: dated note (2026-09-23),
+  labelled industry study, that fewer than four in ten AI Overview citations
+  come from the first ten SERP blocks.
+- Tracking entry, not a change: a roster refresh for `ai-crawler-access`
+  (`OAI-SearchBot`, `ChatGPT-User`, `Claude-User`, `Claude-SearchBot`,
+  `Perplexity-User`, `DuckAssistBot`, and current documentation for `Bytespider`)
+  is a dataset decision — 0.2.0 with `schema_version` 3, `reproduce.sh` re-run,
+  dataset rebuilt — and is deliberately not done in a note.
 
 ## [0.1.4] — 2026-09-22
 

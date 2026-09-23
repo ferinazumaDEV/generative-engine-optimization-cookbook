@@ -46,6 +46,8 @@ This measures **claim→source pairs a deterministic parser can extract**, nothi
 
 Extractability is a *precondition* for attribution — an engine cannot point at a source that is not there — not a guarantee of it. Whether a visible, anchored claim is actually cited depends on relevance, authority and the engine. This recipe proves the (claim, source) pairs become **extractable**; it does not claim a citation rate. A live-LLM test is a separate experiment — see [`measurement.md`](measurement.md) → Limitations.
 
+**Dated note (2026-09-23), industry study (vendor: Ahrefs; post dated 2026-03-02, updated 2026-05-31).** In a sample of 863K keyword SERPs and 4M AI Overview URLs, 37.9% of the URLs cited in Google AI Overviews also appeared within the first ten SERP blocks; the rest split between blocks 11–100 (31.2%) and beyond 100 (31.0%). Organic rank is not a control variable that stands in for citation, which is one more reason this recipe measures the claim→source pair and does not claim the citation (Source)(https://ahrefs.com/blog/ai-overview-citations-top-10/).
+
 ## FAQ
 
 **Isn't a link at the bottom of the page enough?**
