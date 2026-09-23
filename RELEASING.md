@@ -116,6 +116,20 @@ notes:
 curl -s -X POST "https://archive.softwareheritage.org/api/1/origin/save/git/url/https://github.com/ferinazumaDEV/generative-engine-optimization-cookbook/"
 ```
 
+### 7. Tell the mirrors, because their guards cannot see this
+
+At least one public tool reproduces four of this repository's metrics and states on its page **"cross-checked on
+<date> with cookbook <version>"** — the AI citability inspector on zentimes.es, whose ids `words_visible_no_js`,
+`typed_entities`, `ai_user_agents_allowed` and `llms_txt_bytes` are this cookbook's. Its deploy guard fails when
+that statement is older than 120 days, which stops it ageing silently. **It cannot detect that a new version of
+this cookbook exists.** If you tag today and say nothing, that page will keep saying it matches a version that is
+no longer current for up to 119 more days, with a green guard the whole time.
+
+So a release here is not finished until the mirror is told. Send the version and the date to whoever runs the
+mirror, and the cross-check is repeated the same day with `compara-inspector-vs-recetas.py`: four of four, or the
+statement comes down. This step exists because the guard on their side and the release on this side each see
+half of the problem, and the half they cannot see is the one a message covers.
+
 ## Never
 
 - **Never delete a release.** Deleting one is what left Zenodo returning `409` with no DOI. It is not undoable by
