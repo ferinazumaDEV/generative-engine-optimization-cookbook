@@ -107,5 +107,5 @@ Part of a cluster of open work on making content legible to machines, by **Ferna
 - [framesig](https://github.com/ferinazumaDEV/framesig) — find on-screen events in video by pixel signature; no ML.
 - [notebooklm-kb-system](https://github.com/ferinazumaDEV/notebooklm-kb-system) — a token-efficient second brain for AI agents on top of NotebookLM.
 
-Hub and writing: **[zentimes.es](https://zentimes.es)**.
+Hub, writing and the GEO consulting practice that applies these recipes: **[zentimes.es](https://zentimes.es)** (Madrid).
 <!-- ecosystem:end -->

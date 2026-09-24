@@ -1,4 +1,4 @@
-<!-- synced-from: cc083cdb2acb9e24193dc6875b4ebe9419e8de9d -->
+<!-- synced-from: 2cf584c1b8f934d555847bf7e84caa78efd221a8 -->
 # The GEO Cookbook
 
 **English**: [README.md](README.md) · [Español](README.es.md)
@@ -110,5 +110,5 @@ Parte de un conjunto de trabajo abierto sobre hacer el contenido legible para la
 - [framesig](https://github.com/ferinazumaDEV/framesig) — encuentra eventos en pantalla dentro de un vídeo por su firma de píxeles; sin ML.
 - [notebooklm-kb-system](https://github.com/ferinazumaDEV/notebooklm-kb-system) — un segundo cerebro eficiente en tokens para agentes de IA sobre NotebookLM.
 
-Hub y escritura: **[zentimes.es](https://zentimes.es)**.
+Hub, escritura y la consultoría GEO que aplica estas recetas: **[zentimes.es](https://zentimes.es)** (Madrid).
 <!-- ecosystem:end -->
